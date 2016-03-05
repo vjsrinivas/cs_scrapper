@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/stylesheet.css') }}">
+  </head>
+  <body>
+    <div class="main" style="opacity: 1; display: block; padding: 30px;">
+        {% block content %}{% endblock %}
+    </div>
+  </body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+</html>

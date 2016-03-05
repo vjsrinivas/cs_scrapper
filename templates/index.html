@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CyberPatriot Unofficial Scoreboard</title>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/stylesheet.css') }}">
+</head>
+<body>
+
+	<div class="main">
+		<div class="card">
+			<input type="text" class="watch search"></input>
+			<div>
+				
+			</div>
+		</div>
+	</div>
+
+    <p id="status" class="status_loader hide">This is taking longer than usual...</p>
+	<div class="loader_wrapper">
+		<div class="loader">
+			<div class="lead animated infinite bounce"></div>
+		</div>
+	</div>
+
+	<div class="main">
+		<div class="menu">
+			<h4 class="logo">CyberScrapper</h4>
+			<p class="lastmod">(Last Fetch: 02/28/2016 02:34:32 PM)</p>
+			<ul class="menu">
+				<li class="menu"><a id="menu" href="./about.html">About Me</a></li>
+				<li class="menu"><a id="menu" href="#">Help</a></li>
+			</ul>
+		</div>
+
+		<input type="text" class="search" placeholder="Cyberpatriot ID (ex. 08-0217)"></input>
+
+		<div class="settings">
+			<a class="btn setting" href="#">Watch</a>
+			<a class="btn" id="sort" href="#">Sort by...</a>
+			<a class="btn choices"><input id="notifications" type="checkbox" name="notify"></input>Enable Notifications?</a>
+		</div>
+
+		<ul class="sorter">
+			<li class="sorter"><a class="sorter" href="#">Score</a></li>
+			<li class="sorter"><a class="sorter" href="#">Divison</a></li>
+			<li class="sorter"><a class="sorter" href="#">Location</a></li>
+		</ul>
+
+		<div class="chart">
+			<div class="watcher">
+				<h4 id="watch">Watch (2)</h4>
+
+				<div class="watch-card">
+					<div class="tracer disabled"></div>
+					<div class="heatmap disabled" title="Probability (based on EPOC): N/A"></div>
+					<i class="material-icons arrow success">arrow_upward</i>
+					<a class="rank_g">(GR) 1</a>
+					<a class="rank_d">(DR) 1</a>
+					<a class="rank_d">(PR) 1</a>
+					<a class="ID">08-0217</a>
+					<a class="score">300</a>
+				</div>
+			</div>
+
+			<div class="label-sort">
+				<label class="sort">
+					<p>Score Range <i>(100->300)</i></p>
+				</label>
+				<i class="material-icons md-24">remove_circle</i>
+			</div>
+
+			<div class="label-sort">
+				<label class="sort">
+					<p>State Filter <i>(Open Division)</i></p>
+				</label>
+				<i class="material-icons md-24">remove_circle</i>
+			</div>
+
+			<div class="label-sort">
+				<label class="sort">
+					<p>Division <i>(Open Division)</i></p>
+				</label>
+				<i class="material-icons md-24">remove_circle</i>
+			</div>
+
+			<div class="charter">
+				<table class="chart">
+					<tr class="heading">
+						<td id="gr">GR</td>
+						<td id="dr">DR</td>
+						<td id="team">Team ID</td>
+						<td id="loc">Loc.</td>
+						<td id="div">Division</td>
+						<td id="tier">Tier</td>
+						<td id="time">Time</td>
+						<td id="score">Score</td>
+						<td id="pen">Penalties</td>
+					</tr>
+					<tr class="table-card">
+						<td class="gr">1</td>
+						<td class="dr">1</td>
+						<td class="id">08-0217</td>
+						<td class="loc">TN</td>
+						<td class="division">Open</td>
+						<td class="tier">Platinum</td>
+						<td class="time">00:00</td>
+						<td class="score">300</td>
+						<td class="penalty"><a class="error time">T</a> <a class="normal error images">M</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!---
+	<div class="table-card">
+		<a class="gr">1</a>
+		<a class="dr">1</a>
+		<a class="id" href="#">08-0217</a>
+		<a class="loc">TN</a>
+		<a class="division">Open</a>
+		<a class="tier">Platinum</a>
+		<a class="time">00:00</a>
+		<a class="normal error images">I</a>
+		<a class="error time">T</a>
+		<a class="score">300</a>
+	</div>
+	-->
+</body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/notify.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/test.js') }}"></script>
+<script type="text/javascript" src="./js/bootstrap.min.js"></script>
+
+</html>
