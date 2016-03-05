@@ -1,1 +1,1 @@
-web: python dealscraper/hello.py
+web: python cryptic-journey-15859/hello.py
