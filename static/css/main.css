@@ -1,11 +1,13 @@
 #status{
-
+    padding: 5px 10px;
+    border-radius: 20px;
+    background-color: #F44336;
 }
 
 .status_loader{
     position: fixed;
-    top: 50%;
-    left: 42%;
+    top: 55%;
+    left: 41%;
 }
 
 .lead{

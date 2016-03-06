@@ -29,9 +29,13 @@ $(document).ready(function() {
 		}
 	});
 
-    var source = new EventSource("stream");
-    source.onmessage = function(event) {
-        if(event.data == "{isDone: true}")
+
+    if(typeof(EventSource) !== "undefined") {
+        var source = new EventSource("stream");
+        source.onmessage = function(event) {
+        var parser = event.data;
+        objr = JSON.parse(parser);
+        if(objr['isDone'])
         {
             event.target.close();
             $('.loader_wrapper').addClass('hide');
@@ -40,5 +44,9 @@ $(document).ready(function() {
         }
         else
         { console.log(event.data);}
-    };
+        };
+    } else {
+        $("#status").removeClass("hide");
+        $("#status_target").text('error: Browser not supported');
+    }
 });

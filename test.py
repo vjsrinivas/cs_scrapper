@@ -1,3 +1,4 @@
+from scrap import ScrapCS
 import os
 from flask import Flask
 from flask import Response
@@ -25,13 +26,18 @@ def geter():
 
 def event_stream():
     time.sleep(3)
-    return "data: {isDone: true}\n\n"
+    return "data: {\"isDone\": true}\n\n"
 
 @app.route('/stream')
 def stream():
     res = Response(event_stream(), content_type="text/event-stream")
     return res
 
+@app.route('/data')
+def data():
+    sca = ScrapCS("https://ancient-anchorage-16212.herokuapp.com/")
+    return sca.product
+
 if __name__ == "__main__":
    port = int(os.environ.get("PORT", 5000))
-   app.run(host='0.0.0.0', port=port)
+   app.run(host='0.0.0.0', port=port, threaded=True)
