@@ -5,14 +5,11 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/stylesheet.css') }}">
 </head>
-<body>
+<body onbeforeunload="return watcherOccupied()">
 
 	<div class="main">
 		<div class="card">
-			<input type="text" class="watch search"></input>
-			<div>
-				
-			</div>
+			<input type="text" class="watch search">
 		</div>
 	</div>
 
@@ -36,12 +33,19 @@
 			</ul>
 		</div>
 
-		<input type="text" class="search" placeholder="Cyberpatriot ID (ex. 08-0217)"></input>
+		<input type="text" class="search" placeholder="Cyberpatriot ID (ex. 08-0217)">
 
 		<div class="settings">
 			<a class="btn setting" href="#">Watch</a>
 			<a class="btn" id="sort" href="#">Sort by...</a>
 			<a class="btn choices"><input id="notifications" type="checkbox" name="notify"></input>Enable Notifications?</a>
+			<span id="noti_fail" class="hide">
+				<i class="material-icons md-12">info</i>
+				<a href="https://support.google.com/chrome/answer/3123708" style="float: right; margin: 0; color: white; margin-right: 3px;">Notifications have already been blocked!</a>
+			</span>
+			<span id="noti_keepalive">
+				<i class="material-icons md-18">perm_device_information</i>
+			</span>
 		</div>
 
 		<ul class="sorter">
@@ -114,7 +118,69 @@
 				</table>
 			</div>
 		</div>
-	</div>
+		</div>
+
+		<div class="dialog hide">
+			<h4 style="font-size: 20px; color: #949494; margin: 0; padding-bottom: 10px; font-weight: 400; border-bottom: 1px solid #949494">Watch Editor</h4>
+			<input type="text" placeholder="Cyberpatriot ID (ex. 08-0217)" class="normal-searcher">
+            <ul id="watchlist">
+                <li class="tag watch">
+                    <i class="material-icons md-18" style="float: left;">remove_circle</i>
+                    <p class="tag">08-0217</p>
+                </li>
+                <li class="tag watch">
+                    <i class="material-icons md-18" style="float: left;">remove_circle</i>
+                    <p class="tag">08-0217</p>
+                </li>
+                <li class="tag watch">
+                    <i class="material-icons md-18" style="float: left;">remove_circle</i>
+                    <p class="tag">08-0217</p>
+                </li>
+                <li class="tag watch">
+                    <i class="material-icons md-18" style="float: left;">remove_circle</i>
+                    <p class="tag">08-0217</p>
+                </li>
+                <li class="tag watch">
+                    <i class="material-icons md-18" style="float: left;">remove_circle</i>
+                    <p class="tag">08-0217</p>
+                </li>
+                <li class="tag watch">
+                    <i class="material-icons md-18" style="float: left;">remove_circle</i>
+                    <p class="tag">08-0217</p>
+                </li>
+                <li class="tag watch">
+                    <i class="material-icons md-18" style="float: left;">remove_circle</i>
+                    <p class="tag">08-0217</p>
+                </li>
+                <li class="tag watch">
+                    <i class="material-icons md-18" style="float: left;">remove_circle</i>
+                    <p class="tag">08-0217</p>
+                </li>
+                <li class="tag watch">
+                    <i class="material-icons md-18" style="float: left;">remove_circle</i>
+                    <p class="tag">08-0217</p>
+                </li>
+                <li class="tag watch">
+                    <i class="material-icons md-18" style="float: left;">remove_circle</i>
+                    <p class="tag">08-0217</p>
+                </li>
+                <li class="tag watch">
+                    <i class="material-icons md-18" style="float: left;">remove_circle</i>
+                    <p class="tag">08-0217</p>
+                </li>
+                <li class="tag watch">
+                    <i class="material-icons md-18" style="float: left;">remove_circle</i>
+                    <p class="tag">08-0217</p>
+                </li>
+                <li class="tag watch">
+                    <i class="material-icons md-18" style="float: left;">remove_circle</i>
+                    <p class="tag">08-0217</p>
+                </li>
+            </ul>
+            <div>
+            <a class="btn">Save</a> <a class="btn">Cancel</a>
+		    </div>
+        </div>
 
 	<!---
 	<div class="table-card">
@@ -135,6 +201,4 @@
 <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/notify.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/test.js') }}"></script>
-<script type="text/javascript" src="./js/bootstrap.min.js"></script>
-
 </html>

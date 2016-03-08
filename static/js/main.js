@@ -1,13 +1,7 @@
 $(document).ready(function() {	
-	$('#notifications').click(function() {
-		var isCheck = $('#notifications').is(':checked');
-		if(isCheck)
-		{
-			$(".choices").addClass("active");
-		}
-		else
-			$(".choices").removeClass("active");
-	});
+	function watcherOccupied(){
+	    return "There are {x} watches still active";
+	}
 
 	$('.material-icons.md-24').click(function() {
 		$(this).parent().toggle();
@@ -15,6 +9,8 @@ $(document).ready(function() {
 
 	$('.setting').click(function() {
 		$('.main').css("opacity", "0");
+		setTimeout(function() {$('.main').removeClass("loaded")}, 300);
+		setTimeout(function() {$('.dialog').removeClass("hide");}, 300);
 	});
 
 	$(document).on("click", function (e){
@@ -29,6 +25,10 @@ $(document).ready(function() {
 		}
 	});
 
+    $(".tag.watch > .material-icons").hover(function() {
+        $(this).toggleClass("active");
+        $(this.parents()).toggleClass("active");
+    });
 
     if(typeof(EventSource) !== "undefined") {
         var source = new EventSource("stream");

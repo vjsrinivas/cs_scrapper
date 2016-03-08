@@ -501,3 +501,89 @@ div > a.score{
     margin-left: 329px;
     z-index: 10000;
 }
+
+.dialog{
+    margin-top: 30px;
+    position: fixed;
+    padding: 20px;
+    width: 500px;
+    background-color: white;
+    border-bottom: 3px solid #1E88E5;
+    left: 50%;
+    margin-left: -250px;
+    -webkit-transition: 1s ease-in;
+}
+
+.normal-searcher{
+    padding: 10px;
+    color: #949494 !important;
+    border-radius: 20px;
+    border: 1px solid #949494;
+    outline: none;
+    box-sizing: border-box;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: inherit;
+}
+
+.dialog > input::-webkit-input-placeholder {
+	color: #949494 !important;
+}
+
+.tag.watch{
+    border: 1px solid #2196F3;
+    padding: 6px;
+    color: #2196F3;
+    border-radius: 20px;
+    font-size: 14px;
+    list-style: none;
+    float: left;
+    margin-left: 4px;
+    margin-top: 2px;
+    cursor: default;
+}
+
+p.tag{
+    margin: 0;
+    float: left;
+    margin-left: 5px;
+}
+
+#watchlist{
+    padding: 0;
+    display: inline;
+    margin-top: 10px;
+}
+
+.tag.watch > .material-icons.active{
+    color: white;
+}
+
+.tag.watch.active{
+    background-color: black;
+}
+
+#noti_fail{
+    font-size: 12px;
+    float: right;
+    margin: 0;
+    padding: 5px;
+    border-radius: 20px;
+    background-color: #FFC107;
+    margin-right: 15px;
+}
+
+.settings > .hide{
+    display: none;
+}
+
+.material-icons.md-12{
+    font-size: 15px;
+    margin-right: 4px;
+}
+
+#noti_keepalive{
+    background-color: #FFC107;
+    padding: 10px 10px 6px 10px;
+    border-radius: 20px;
+}

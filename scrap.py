@@ -106,7 +106,7 @@ class ScrapCS:
                 meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("sc_image", teamdata[index].sc_image)
                 meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("time", teamdata[index].time)
                 meandata += str("\t\t\t\"{0}\": {1},\n").format("score", teamdata[index].score)
-                meandata += str("\t\t\t\"{0}\": [\n\t\t\t\t{1},\n\t\t\t\t{2}\n\t\t\t],\n").format("penalties", teamdata[index].penalties[0], teamdata[index].penalties[1])
+                meandata += str("\t\t\t\"{0}\": [\n\t\t\t\t{{\n\t\t\t\t\t{1},\n\t\t\t\t\t{2}\n\t\t\t\t}}\n\t\t\t],\n").format("penalties", "\"overtime\": " + str.lower(str(teamdata[index].penalties[0])), "\"images\": " + str.lower(str(teamdata[index].penalties[1])))
                 meandata += str("\t\t\t}")
                 if index == len(teamdata)-1:
                     meandata += "\n"
