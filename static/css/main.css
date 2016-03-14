@@ -27,6 +27,7 @@ padding: 10px;
     left: 48%;
     margin-top: -50px;
     -webkit-transition: opacity .2s ease-out;
+    -moz-transition: opacity .2s ease-out;
     opacity: 1;
 }
 
@@ -58,6 +59,7 @@ div.main{
 	opacity: 0;
 	display: none;
 	-webkit-transition: opacity 1s cubic-bezier(0.22, 0.61, 0.36, 1);
+	-moz-transition: opacity 1s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 div.menu{
@@ -82,6 +84,7 @@ a#menu{
 	text-decoration: none;
 	color: #E3F2FD;
 	-webkit-transition: .1s;
+    -moz-transition: .1s;
 }
 
 a#menu:hover{
@@ -110,6 +113,7 @@ input::-webkit-input-placeholder {
     color: white;
     outline: none;
     -webkit-transition: .3s;
+    -moz-transition: .3s;
     box-sizing: border-box;
 }
 
@@ -117,6 +121,7 @@ input::-webkit-input-placeholder {
 	background-color: white;
 	color: black;
 	-webkit-transition: .3s;
+	-moz-transition: .3s;
 }
 
 .btn{
@@ -124,14 +129,28 @@ input::-webkit-input-placeholder {
 	padding: 7px 15px;
 	border-radius: 40px;
 	-webkit-transition: .2s;
+	-moz-transition: .2s;
 	text-decoration: none;
 	color: white;	
 	margin-right: 10px;
+	cursor: pointer;
 }
 
 .btn:hover{
 	background-color: white;
 	color: black;
+}
+
+.watchaction > .btn{
+    background-color: #2196F3;
+    border-color: #2196F3;
+    border-radius: 6px;
+}
+
+.watchaction > .btn:hover{
+    background-color: #1E88E5;
+    border-color: #1E88E5;
+    color: white;
 }
 
 .setting{
@@ -177,7 +196,7 @@ input#notifications{
 .material-icons.md-24 { font-size: 24px; }
 .material-icons.md-36 { font-size: 36px; }
 .material-icons.md-48 { font-size: 48px; }
-i.md-24 {margin-right: 3px; margin-top: 3px; cursor: pointer; color: #BBDEFB; -webkit-transition: .2s;}
+i.md-24 {margin-right: 3px; margin-top: 3px; cursor: pointer; -webkit-transition: .2s; -moz-transition: .2s;}
 i.md-24:hover{color: white;}
 
 ul.sorter{
@@ -191,6 +210,7 @@ ul.sorter{
 	margin-left: 86px;
 	display: none;
 	-webkit-transition: .4s;
+	-moz-transition: .4s;
 	position: absolute;
 	border: 1px solid #E0E0E0;
 }
@@ -198,6 +218,7 @@ ul.sorter{
 li.sorter{
 	padding: 7px 10px;
 	-webkit-transition: .2s ease-in;
+	-moz-transition: .2s ease-in;
 }
 
 li.sorter:hover{
@@ -213,18 +234,29 @@ li.sorter:hover{
 	color: black;
 }
 
+.sorter.disabled{
+    background-color: #E0E0E0;
+    cursor: default;
+    color: #bdc3c7 !important;
+}
+
 .label-sort{
-	float: left;
+    display: inline-block;
     padding: 1px;
     border: 1px solid #BBDEFB;
-    /* width: 100%; */
+    color: #BBDEFB;
     box-sizing: border-box;
     margin-right: 5px;
     border-radius: 30px;
     margin-bottom: 10px;
 }
 
-label.sort{
+.para-sort{
+    float: left;
+    margin: 4px 0px 0px 10px;
+}
+
+#label-container{
 
 }
 
@@ -238,12 +270,8 @@ label.sort > p{
 }
 
 .charter{
-	margin-top: 60px;
 	background-color: white;
 	padding: 10px;
-    margin-top: 60px;
-    background-color: white;
-    padding: 10px;
     border-bottom: 3px solid #1E88E5;
 }
 
@@ -275,6 +303,7 @@ input.watch{
 	border-bottom: 1px solid #EBEBEB;
 	padding: 20px;
 	-webkit-transition: 1s ease-out;
+	-moz-transition: 1s ease-out;
 }
 
 td{
@@ -343,6 +372,11 @@ table.chart{
     margin-right: 16px;
     font-size: 16px;
     margin-left: 9px;
+}
+
+.label-sort.error{
+    background: #F44336;
+    color: white !important;
 }
 
 .images{
@@ -428,10 +462,12 @@ div.watch-card{
     border-bottom: 2px solid #1E88E5;
 	background-color: white;
 	-webkit-transition: .3s ease-out;
+	-moz-transition: .3s ease-out;
 }
 
 .arrow{
 	-webkit-transition: 1s ease-out;
+	-moz-transition: 1s ease-out;
 }
 
 .success{
@@ -512,6 +548,7 @@ div > a.score{
     left: 50%;
     margin-left: -250px;
     -webkit-transition: 1s ease-in;
+    -moz-transition: 1s ease-in;
 }
 
 .normal-searcher{
@@ -537,7 +574,7 @@ div > a.score{
     border-radius: 20px;
     font-size: 14px;
     list-style: none;
-    float: left;
+    display: inline-block;
     margin-left: 4px;
     margin-top: 2px;
     cursor: default;
@@ -555,12 +592,20 @@ p.tag{
     margin-top: 10px;
 }
 
+.watchaction{
+    margin-top: 30px;
+    margin-left: 4px;
+    margin-bottom: 10px;
+}
+
 .tag.watch > .material-icons.active{
     color: white;
+    cursor: pointer;
 }
 
 .tag.watch.active{
-    background-color: black;
+    background-color: #2196F3;
+    color: white;
 }
 
 #noti_fail{
@@ -583,7 +628,40 @@ p.tag{
 }
 
 #noti_keepalive{
-    background-color: #FFC107;
-    padding: 10px 10px 6px 10px;
     border-radius: 20px;
+    cursor: default;
+}
+
+.change-value{
+    border: none;
+    outline: none;
+    background: none;
+    font-style: italic;
+    color: #BBDEFB;
+    font-size: 15px;
+    margin-right: 5px;
+
+}
+
+.change-value:focus{
+    border: none;
+    color: black;
+    outline: none;
+    background: white;
+    font-style: italic;
+    font-size: 15px;
+    margin-right: 5px;
+    padding: 3px;
+}
+
+#score-sort{
+    width: 64px;
+}
+
+#state-sort{
+    width: 85px;
+}
+
+#division-sort{
+    width: 105px;
 }

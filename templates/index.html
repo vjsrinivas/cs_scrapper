@@ -4,6 +4,7 @@
 	<title>CyberPatriot Unofficial Scoreboard</title>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/stylesheet.css') }}">
+	<link rel="icon" type="image/png" href="./static/imgs/favicon.png">
 </head>
 <body onbeforeunload="return watcherOccupied()">
 
@@ -28,7 +29,7 @@
 			<h4 class="logo">CyberScrapper</h4>
 			<p class="lastmod">(Last Fetch: 02/28/2016 02:34:32 PM)</p>
 			<ul class="menu">
-				<li class="menu"><a id="menu" href="./about.html">About Me</a></li>
+				<li class="menu"><a id="menu" href="./about">About Me</a></li>
 				<li class="menu"><a id="menu" href="#">Help</a></li>
 			</ul>
 		</div>
@@ -43,15 +44,15 @@
 				<i class="material-icons md-12">info</i>
 				<a href="https://support.google.com/chrome/answer/3123708" style="float: right; margin: 0; color: white; margin-right: 3px;">Notifications have already been blocked!</a>
 			</span>
-			<span id="noti_keepalive" class="hide">
-				<i class="material-icons md-18">perm_device_information</i>
+			<span id="noti_keepalive" class="hide" title="Note: You've wished to not be notified by this website, but your browser still allows the website to push notifications.">
+				<i id="noti_ic" class="material-icons" style="font-size: 15px;">announcement</i>
 			</span>
 		</div>
 
 		<ul class="sorter">
-			<li class="sorter"><a class="sorter" href="#">Score</a></li>
-			<li class="sorter"><a class="sorter" href="#">Divison</a></li>
-			<li class="sorter"><a class="sorter" href="#">Location</a></li>
+			<li class="sorter" id="sorter-score"><a class="sorter" href="#">Score</a></li>
+			<li class="sorter" id="sorter-division"><a class="sorter" href="#">Divison</a></li>
+			<li class="sorter" id="sorter-location"><a class="sorter" href="#">Location</a></li>
 		</ul>
 
 		<div class="chart">
@@ -70,25 +71,19 @@
 				</div>
 			</div>
 
-			<div class="label-sort">
-				<label class="sort">
-					<p>Score Range <i>(100->300)</i></p>
-				</label>
-				<i class="material-icons md-24">remove_circle</i>
-			</div>
-
-			<div class="label-sort">
-				<label class="sort">
-					<p>State Filter <i>(Open Division)</i></p>
-				</label>
-				<i class="material-icons md-24">remove_circle</i>
-			</div>
-
-			<div class="label-sort">
-				<label class="sort">
-					<p>Division <i>(Open Division)</i></p>
-				</label>
-				<i class="material-icons md-24">remove_circle</i>
+			<div id="label-container">
+				<div class="label-sort">
+					<p class="para-sort">Score Range <input type="text" value="(100-300)" id="score-sort" class="change-value"/></p>
+					<i class="material-icons md-24">remove_circle</i>
+				</div>
+				<div class="label-sort">
+					<p class="para-sort">State Filter <input type="text" value="(Tennessee)" id="state-sort" class="change-value"/></p>
+					<i class="material-icons md-24">remove_circle</i>
+				</div>
+				<div class="label-sort">
+					<p class="para-sort">Division <input type="text" value="(Open Division)" id="division-sort" class="change-value"/></p>
+					<i class="material-icons md-24">remove_circle</i>
+				</div>
 			</div>
 
 			<div class="charter">
@@ -177,8 +172,8 @@
                     <p class="tag">08-0217</p>
                 </li>
             </ul>
-            <div>
-            <a class="btn">Save</a> <a class="btn">Cancel</a>
+            <div class="watchaction">
+            <a class="btn save">Save</a> <a class="btn cancel">Cancel</a>
 		    </div>
         </div>
 
@@ -201,4 +196,5 @@
 <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/notify.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/test.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/js_entry.js') }}"></script>
 </html>

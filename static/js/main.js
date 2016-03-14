@@ -3,14 +3,14 @@ $(document).ready(function() {
 	    return "There are {x} watches still active";
 	}
 
-	$('.material-icons.md-24').click(function() {
-		$(this).parent().toggle();
-	});
+    $(document).on('click', '.material-icons.md-24', function()
+    { $(this).parent().remove(); });
 
 	$('.setting').click(function() {
-		$('.main').css("opacity", "0");
-		setTimeout(function() {$('.main').removeClass("loaded")}, 300);
-		setTimeout(function() {$('.dialog').removeClass("hide");}, 300);
+		$('.main').css("opacity", "0").css("display","none");
+		$('.main').removeClass("loaded");
+		//setTimeout(function() {$('.dialog').removeClass("hide");}, 300);
+		$(".dialog").css("opacity", "1").css("display", "inherit");
 	});
 
 	$(document).on("click", function (e){
@@ -27,7 +27,7 @@ $(document).ready(function() {
 
     $(".tag.watch > .material-icons").hover(function() {
         $(this).toggleClass("active");
-        $(this.parents()).toggleClass("active");
+        $(this).parents().toggleClass("active");
     });
 
     if(typeof(EventSource) !== "undefined") {
@@ -49,4 +49,33 @@ $(document).ready(function() {
         $("#status").removeClass("hide");
         $("#status_target").text('error: Browser not supported');
     }
+
+
+    //SORTER TEXTBOX CHANGES
+    function eventError(object)
+    {
+        $(object).parent().parent().addClass("error");
+        $(object).css("border","1px solid #FFCDD2");
+    }
+
+    $(".change-value").focus(function() {
+    })
+
+    $(".change-value").focusout(function() {
+        if($(this).val() == "")
+            eventError(this);
+        else
+        {
+            $(this).parent().parent().removeClass("error");
+            $(this).css("border","none");
+        }
+    })
+
+    $(".cancel").click(function() {
+        $(".dialog").css("display", "none");
+        //setTimeout(function() {$('.dialog').addClass("hide");}, 300);
+	    //setTimeout(function() {$('.main').addClass("loaded");}, 600);
+		$(".main").css("display","inherit").css("opacity","1");
+		$(".main").addClass("loaded");
+    })
 });

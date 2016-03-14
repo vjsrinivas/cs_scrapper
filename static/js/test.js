@@ -59,6 +59,7 @@ $(document).ready(function() {
         var isCheck = $('#notifications').is(':checked');
 		if(isCheck)
 		{
+		    $("#noti_keepalive").addClass("hide");
 			$(".choices").addClass("active");
 		    if (!Notify.needsPermission) {
         	doNotification();
@@ -68,6 +69,13 @@ $(document).ready(function() {
     	    }
 		}
 		else
+		{
+		    if(Notification.permission == "granted")
+		    {
+		        $("#noti_keepalive").removeClass("hide");
+                $("#noti_ic").addClass("animated fadeInUp");
+            }
 			$(".choices").removeClass("active");
+        }
 	});
 });
