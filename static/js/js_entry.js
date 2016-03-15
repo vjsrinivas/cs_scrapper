@@ -35,20 +35,19 @@ $(document).ready(function() {
             { $("#sorter-division").removeClass("disabled"); sortDivision = false; }
         }
 
-        $("#sorter-score").on('click',function() {
+        $("#sorter-score").off('click').on('click', function() {
             if(!$(this).hasClass("disabled"))
                 $("#label-container").append(templateScore);
-        })
+        });
 
-        $("#sorter-division").click(function() {
+         $("#sorter-division").off('click').on('click', function() {
             if(!$(this).hasClass("disabled"))
                 $("#label-container").append(templateDivision);
         })
 
-        $("#sorter-location").click(function() {
+         $("#sorter-location").off('click').on('click', function() {
             if(!$(this).hasClass("disabled"))
                 $("#label-container").append(templateState);
-                console.log("asdas");
         })
     })
 })
