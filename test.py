@@ -1,8 +1,6 @@
 from scrap import ScrapCS
 import os
-from flask import Flask
-from flask import Response
-from flask import render_template
+from flask import Flask, Response, render_template
 from prim import Primitives
 from celery import Celery
 import time
