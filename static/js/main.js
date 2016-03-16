@@ -1,6 +1,15 @@
-$(document).ready(function() {	
+$(document).ready(function() {
+
+    var _input = "";
+    var _watcher = new Array();
+
 	function watcherOccupied(){
 	    return "There are {x} watches still active";
+	}
+
+	function watcherChanged()
+	{
+	    $(".save").removeClass("unneeded");
 	}
 
     $(document).on('click', '.material-icons.md-24', function()
@@ -9,7 +18,6 @@ $(document).ready(function() {
 	$('.setting').click(function() {
 		$('.main').css("opacity", "0").css("display","none");
 		$('.main').removeClass("loaded");
-		//setTimeout(function() {$('.dialog').removeClass("hide");}, 300);
 		$(".dialog").css("opacity", "1").css("display", "inherit");
 	});
 
@@ -25,10 +33,31 @@ $(document).ready(function() {
 		}
 	});
 
-    $(".tag.watch > .material-icons").hover(function() {
-        $(this).toggleClass("active");
-        $(this).parents().toggleClass("active");
+    $(document).on("mouseenter",".material-icons",function(e) {
+        $(this).addClass("active");
+        $(this).parents("li").addClass("active");
+    }).on("mouseleave", ".material-icons", function(e){
+        $(this).removeClass("active");
+        $(this).parents("li").removeClass("active");
     });
+
+    $(document).on("click", ".material-icons", function(e) {
+        $(this).parents("li").remove();
+        watcherChanged();
+    });
+
+    $()
+
+    $(".normal-searcher").keypress(function(e){
+        if(e.which == 13)
+        {
+            _input = $(this).val();
+            var _watcherTemplate = "<li class=\"tag watch\"><i class=\"material-icons md-18\" style=\"float: left;\">remove_circle</i><p class=\"tag\">" + _input + "</p></li>";
+            $("#watchlist").append(_watcherTemplate);
+            $(this).val("");
+            watcherChanged();
+        }
+    })
 
     if(typeof(EventSource) !== "undefined") {
         var source = new EventSource("stream");
@@ -58,10 +87,7 @@ $(document).ready(function() {
         $(object).css("border","1px solid #FFCDD2");
     }
 
-    $(".change-value").focus(function() {
-    })
-
-    $(".change-value").focusout(function() {
+    $(document).on("focusout", "input.change-value", function(e) {
         if($(this).val() == "")
             eventError(this);
         else
@@ -73,9 +99,22 @@ $(document).ready(function() {
 
     $(".cancel").click(function() {
         $(".dialog").css("display", "none");
-        //setTimeout(function() {$('.dialog').addClass("hide");}, 300);
-	    //setTimeout(function() {$('.main').addClass("loaded");}, 600);
 		$(".main").css("display","inherit").css("opacity","1");
 		$(".main").addClass("loaded");
+    })
+
+    store.set("watching", {array: {item1: "afafa", wow: "asfaas"}});
+
+    $(".save").click(function(){
+        if(store.enabled)
+        {
+            var _jsonparse = store.get("watching");
+            console.log(_jsonparse.array.item1);
+        }
+
+        $(".dialog").css("display", "none");
+		$(".main").css("display","inherit").css("opacity","1");
+		$(".main").addClass("loaded");
+		$(this).addClass("unneeded");
     })
 });
