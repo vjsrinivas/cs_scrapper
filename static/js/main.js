@@ -2,14 +2,37 @@ $(document).ready(function() {
 
     var _input = "";
     var _watcher = new Array();
+    init();
 
-	function watcherOccupied(){
-	    return "There are {x} watches still active";
-	}
+    function init()
+    {
+        if(store.enabled && typeof(EventSource) !== "undefined" && store.get("watching") != undefined)
+        {
+            _watcher = store.get("watching").split("\n");
+            for(var i = 0; i < _watcher.length; i++)
+            {
+                var _watcherTemplate = "<li class=\"tag watch\"><i class=\"material-icons md-18\" style=\"float: left;\">remove_circle</i><p class=\"tag\">" + _watcher[i] + "</p></li>";
+                $("#watchlist").append(_watcherTemplate);
+            }
+        }
+    }
+
+    if(_watcher.length > 0)
+    {
+        window.onbeforeunload = function(e){
+            return "There are " + _watcher.length + " watches still active";
+        }
+    }
 
 	function watcherChanged()
 	{
 	    $(".save").removeClass("unneeded");
+	    $(".save").removeAttr("disabled");
+	}
+
+	function showEmptiness()
+	{
+
 	}
 
     $(document).on('click', '.material-icons.md-24', function()
@@ -42,7 +65,14 @@ $(document).ready(function() {
     });
 
     $(document).on("click", ".material-icons", function(e) {
+        var _val = $(this).next(".tag").text();
         $(this).parents("li").remove();
+        var x = _watcher.indexOf(_val);
+        if(x != -1)
+            _watcher.splice(x, x+1);
+        if(_watcher.length == 0)
+           store.clear();
+           //console.log("afafa");
         watcherChanged();
     });
 
@@ -51,8 +81,10 @@ $(document).ready(function() {
     $(".normal-searcher").keypress(function(e){
         if(e.which == 13)
         {
+            $(".empty").hide();
             _input = $(this).val();
             var _watcherTemplate = "<li class=\"tag watch\"><i class=\"material-icons md-18\" style=\"float: left;\">remove_circle</i><p class=\"tag\">" + _input + "</p></li>";
+            _watcher.push(_input);
             $("#watchlist").append(_watcherTemplate);
             $(this).val("");
             watcherChanged();
@@ -101,16 +133,22 @@ $(document).ready(function() {
         $(".dialog").css("display", "none");
 		$(".main").css("display","inherit").css("opacity","1");
 		$(".main").addClass("loaded");
+		$("#watchlist").empty();
+		init();
     })
 
-    store.set("watching", {array: {item1: "afafa", wow: "asfaas"}});
+    $(".btn.save").click(function(){
 
-    $(".save").click(function(){
-        if(store.enabled)
+        var _tempcon = "";
+        for(var i = 0; i < _watcher.length; i++)
         {
-            var _jsonparse = store.get("watching");
-            console.log(_jsonparse.array.item1);
+            if(i == (_watcher.length - 1))
+                _tempcon += _watcher[i];
+            else
+                _tempcon += _watcher[i]+"\n";
         }
+        if(store.enabled && _tempcon != "")
+            store.set("watching", _tempcon);
 
         $(".dialog").css("display", "none");
 		$(".main").css("display","inherit").css("opacity","1");

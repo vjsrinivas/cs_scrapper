@@ -6,7 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/stylesheet.css') }}">
 	<link rel="icon" type="image/png" href="./static/imgs/favicon.png">
 </head>
-<body onbeforeunload="return watcherOccupied()">
+<body>
 
 	<div class="main">
 		<div class="card">
@@ -108,13 +108,13 @@
 			<h4 style="font-size: 20px; color: #949494; margin: 0; padding-bottom: 10px; font-weight: 400; border-bottom: 1px solid #949494">Watch Editor</h4>
 			<input type="text" placeholder="Cyberpatriot ID (ex. 08-0217)" class="normal-searcher">
             <ul id="watchlist">
-                <li class="tag watch">
-                    <i class="material-icons md-18" style="float: left;">remove_circle</i>
-                    <p class="tag">08-0217</p>
-                </li>
+				<div class="empty">
+					<i class="material-icons">info_outline</i>
+					<p class="empty">Collection is empty</p>
+				</div>
             </ul>
             <div class="watchaction">
-            <a class="btn save unneeded">Save</a> <a class="btn cancel">Cancel</a>
+            <button class="btn save unneeded" disabled>Save</button> <button class="btn cancel">Cancel</button>
 		    </div>
         </div>
 
