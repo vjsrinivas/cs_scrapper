@@ -2,6 +2,7 @@ $(document).ready(function() {
 
     var _input = "";
     var _watcher = new Array();
+    var _emptier = new Array();
     init();
 
     function init()
@@ -17,13 +18,6 @@ $(document).ready(function() {
         }
     }
 
-    if(_watcher.length > 0)
-    {
-        window.onbeforeunload = function(e){
-            return "There are " + _watcher.length + " watches still active";
-        }
-    }
-
 	function watcherChanged()
 	{
 	    $(".save").removeClass("unneeded");
@@ -32,7 +26,10 @@ $(document).ready(function() {
 
 	function showEmptiness()
 	{
-
+        if(_watcher.length > 0 && store.get("watching") != "undefined")
+		    $(".empty").hide();
+        else
+            $(".empty").show();
 	}
 
     $(document).on('click', '.material-icons.md-24', function()
@@ -42,6 +39,7 @@ $(document).ready(function() {
 		$('.main').css("opacity", "0").css("display","none");
 		$('.main').removeClass("loaded");
 		$(".dialog").css("opacity", "1").css("display", "inherit");
+		showEmptiness();
 	});
 
 	$(document).on("click", function (e){
@@ -72,7 +70,7 @@ $(document).ready(function() {
             _watcher.splice(x, x+1);
         if(_watcher.length == 0)
            store.clear();
-           //console.log("afafa");
+        showEmptiness();
         watcherChanged();
     });
 
@@ -133,26 +131,31 @@ $(document).ready(function() {
         $(".dialog").css("display", "none");
 		$(".main").css("display","inherit").css("opacity","1");
 		$(".main").addClass("loaded");
-		$("#watchlist").empty();
+		//$("#watchlist").empty();
+		$(".save").addClass("unneeded");
+	    $(".save").attr("disabled");
 		init();
     })
 
     $(".btn.save").click(function(){
 
-        var _tempcon = "";
-        for(var i = 0; i < _watcher.length; i++)
+        if(!($(".save").is(":disabled")))
         {
-            if(i == (_watcher.length - 1))
-                _tempcon += _watcher[i];
-            else
-                _tempcon += _watcher[i]+"\n";
-        }
-        if(store.enabled && _tempcon != "")
-            store.set("watching", _tempcon);
+            var _tempcon = "";
+            for(var i = 0; i < _watcher.length; i++)
+            {
+                if(i == (_watcher.length - 1))
+                    _tempcon += _watcher[i];
+                else
+                    _tempcon += _watcher[i]+"\n";
+            }
+            if(store.enabled && _tempcon != "")
+                store.set("watching", _tempcon);
 
-        $(".dialog").css("display", "none");
-		$(".main").css("display","inherit").css("opacity","1");
-		$(".main").addClass("loaded");
-		$(this).addClass("unneeded");
+            $(".dialog").css("display", "none");
+            $(".main").css("display","inherit").css("opacity","1");
+            $(".main").addClass("loaded");
+            $(this).addClass("unneeded");
+		}
     })
 });

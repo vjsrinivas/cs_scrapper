@@ -589,8 +589,9 @@ p.tag{
 
 #watchlist{
     padding: 0;
-    display: inline;
     margin-top: 10px;
+    height: 100px;
+    overflow-y: auto;
 }
 
 .watchaction{
@@ -675,6 +676,10 @@ p.tag{
     cursor: default;
 }
 
+.unneeded:hover{
+    color: #9E9E9E !important;
+}
+
 .empty{
     width: 100%;
     height: 100px;
@@ -686,9 +691,12 @@ p.tag{
     font-size: 36px;
     position: absolute;
     top: 45%;
-    left: 45%;
+    left: 47%;
 }
 
 p.empty{
-
+    margin: 0;
+    padding-top: 58px;
+    height: 23px;
+    text-align: center;
 }

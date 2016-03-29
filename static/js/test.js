@@ -40,7 +40,7 @@ $(document).ready(function() {
 
     function doNotification () {
         var myNotification = new Notify('Yo dawg!', {
-            body: 'This is an awesome notification This is an awesome notification!',
+            body: '{0} has taken #{1} in Personal Rank',
             tag: 'My unique id',
             icon: "./static/imgs/new_leader.png ",
             notifyShow: onShowNotification,
