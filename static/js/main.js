@@ -142,6 +142,10 @@ $(document).ready(function() {
             {
                 console.log(event.data);
                 event.target.close();
+                $("#liststatus").append('<li id="status" class="status_loader hide"><i class="material-icons md-18" style="margin-top: 3px">error_outline</i><p id="status_target" style="margin: 0; float: right; margin-top: 2px; margin-left: 7px;">error<></p></li>')
+	            $("#status").removeClass("hide");
+                $("#status_target").text('error: Table did not draw');
+                $("#liststatus").append('<li class="status_loader"><a href="./old" id="status_target" style="color: white; margin-left: 72px;">try alt. version</a></li>');
             }
         }
     }

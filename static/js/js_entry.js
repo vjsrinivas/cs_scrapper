@@ -6,7 +6,7 @@ $(document).ready(function() {
 
     var templateScore = String.raw`<div class="label-sort"><p class="para-sort">Score Range <input type="text" value="(100-300)" id="score-sort" class="change-value"/></p><i class="material-icons md-24">remove_circle</i></div>`;
     var templateState = String.raw`<div class="label-sort"><p class="para-sort">State Filter <input type="text" value="(Tennessee)" id="state-sort" class="change-value"/></p><i class="material-icons md-24">remove_circle</i></div>`;
-    var templateDivision = String.raw`<div class="label-sort"><p class="para-sort">Division <input type="text" value="(Open Division)" id="division-sort" class="change-value"/></p><i class="material-icons md-24">remove_circle</i></div>`;
+    var templateDivision = String.raw`<div class="label-sort"><p class="para-sort">Division <input type="text" value="(Open)" id="division-sort" class="change-value"/></p><i class="material-icons md-24">remove_circle</i></div>`;
 
     $('a#sort').click(function() {
         if(!$("a#sorter").hasClass("disabled"))
