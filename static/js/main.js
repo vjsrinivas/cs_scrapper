@@ -90,7 +90,6 @@ $(document).ready(function() {
         }
     })
 
-    var isDoneDrawn = false;
     var maintab = $('#example').DataTable( {
         "processing": true,
         "ajax": "../data",
@@ -129,7 +128,7 @@ $(document).ready(function() {
             source.onmessage = function(event) {
             var parser = event.data;
             objr = JSON.parse(parser);
-            if(objr['isDone'] && isDoneDrawn)
+            if(objr['isDone'])
             {
                 event.target.close();
                 $('.loader_wrapper').addClass('hide');
