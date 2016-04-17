@@ -70,13 +70,13 @@ class ScrapCS:
 
     def createJSON(self, teamdata):
         if teamdata == []:
-            return "\t{\n\t\t\"root\": []\n\t}"
+            return "\t{\n\t\t\"data\": []\n\t}"
         else:
             division = ["All Service","Open","Middle School"]
             division_op = ["Platinum","Gold","Silver"]
             dv_a, dv_o, dv_m = 0,0,0
 
-            mainbody = "\t{\n\t \"root\": [\n"
+            mainbody = "\t{\n\t \"data\": [\n"
             for index in range(len(teamdata)):
                 #Determine Position in Division rank (Open including all)
                 #Division rank is not including tier in Open division
@@ -106,7 +106,7 @@ class ScrapCS:
                 meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("sc_image", teamdata[index].sc_image)
                 meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("time", teamdata[index].time)
                 meandata += str("\t\t\t\"{0}\": {1},\n").format("score", teamdata[index].score)
-                meandata += str("\t\t\t\"{0}\": [\n\t\t\t\t{{\n\t\t\t\t\t{1},\n\t\t\t\t\t{2}\n\t\t\t\t}}\n\t\t\t],\n").format("penalties", "\"overtime\": " + str.lower(str(teamdata[index].penalties[0])), "\"images\": " + str.lower(str(teamdata[index].penalties[1])))
+                meandata += str("\t\t\t\"{0}\": [\n\t\t\t\t{{\n\t\t\t\t\t{1},\n\t\t\t\t\t{2}\n\t\t\t\t}}\n\t\t\t]\n").format("penalties", "\"overtime\": " + str.lower(str(teamdata[index].penalties[0])), "\"images\": " + str.lower(str(teamdata[index].penalties[1])))
                 meandata += str("\t\t\t}")
                 if index == len(teamdata)-1:
                     meandata += "\n"

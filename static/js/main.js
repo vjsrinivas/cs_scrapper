@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
     var _input = "";
+    var _empty = "<div class=\"empty\"><i class=\"material-icons\">info_outline</i><p class=\"empty\">Collection is empty</p></div>";
     var _watcher = new Array();
     var _emptier = new Array();
     init();
@@ -89,24 +90,65 @@ $(document).ready(function() {
         }
     })
 
+    var maintab = $('#example').DataTable( {
+        "processing": true,
+        "ajax": "http://localhost:5000/data",
+        "aoColumns": [
+            {"mData": "gr"},
+            {"mData": "dr"},
+            {"mData": "teamid"},
+            {"mData": "loc"},
+            {"mData": "div"},
+            {"mData": "tier"},
+            {"mData": "time"},
+            {"mData": "score"},
+            {"mData": "penalties"},
+        ],
+        "columnDefs": [
+            { className: "my_class", "targets": [ 0,1 ] }
+        ],
+        "sortable": true,
+        "sDom": '<"top">rt<"bottom"lp><"clear">',
+        "bLengthChange": false,
+        "scroller": true,
+        "scrollY": 500,
+        "deferRender": true,
+    } );
+
+    setInterval( function () {
+    maintab.ajax.reload(null, false);
+    }, 500000 );
+
+    $("#mainsearch").on("keyup", function() {
+        maintab.columns(2).search($("#mainsearch").val()).draw();
+    })
+
     if(typeof(EventSource) !== "undefined") {
-        var source = new EventSource("stream");
-        source.onmessage = function(event) {
-        var parser = event.data;
-        objr = JSON.parse(parser);
-        if(objr['isDone'])
-        {
-            event.target.close();
-            $('.loader_wrapper').addClass('hide');
-		    $('.main').addClass('loaded');
-		    setTimeout( function(){$('.main').css("opacity", "1")},100);
+            var isDoneDrawn = false;
+            var source = new EventSource("stream");
+            maintab.on('draw', function(){isDoneDrawn = true;});
+            source.onmessage = function(event) {
+            var parser = event.data;
+            objr = JSON.parse(parser);
+            if(objr['isDone'] && isDoneDrawn)
+            {
+                event.target.close();
+                $('.loader_wrapper').addClass('hide');
+		        $('.main').addClass('loaded');
+		        setTimeout( function(){$('.main').css("opacity", "1")},100);
+            }
+            else
+            {
+                console.log(event.data);
+                event.target.close();
+            }
         }
-        else
-        { console.log(event.data);}
-        };
-    } else {
-        $("#status").removeClass("hide");
+    }
+    else {
+        $("#liststatus").append('<li id="status" class="status_loader hide"><i class="material-icons md-18" style="margin-top: 3px">error_outline</i><p id="status_target" style="margin: 0; float: right; margin-top: 2px; margin-left: 7px;">error<></p></li>')
+	    $("#status").removeClass("hide");
         $("#status_target").text('error: Browser not supported');
+        $("#liststatus").append('<li class="status_loader"><a href="localhost:5000/old" id="status_target" style="color: white; margin-left: 72px;">try alt. version</a></li>');
     }
 
 
@@ -116,6 +158,45 @@ $(document).ready(function() {
         $(object).parent().parent().addClass("error");
         $(object).css("border","1px solid #FFCDD2");
     }
+
+    $(document).on("focusin", "input#score-sort", function(e) {
+        var strung = $("input#score-sort").val();
+        var res = strung.slice(1, strung.length-1);
+        $("input#score-sort").val(res);
+    })
+
+    $(document).on("focusout", "input#score-sort", function(e) {
+        maintab.search($("input#score-sort").val()).draw();
+        $("input#score-sort").val("("+$("input#score-sort").val()+")");
+        if($("input#score-sort").val() == "()")
+            $("input#score-sort").val("");
+    })
+
+    $(document).on("focusin", "input#state-sort", function(e) {
+        var strung = $("input#state-sort").val();
+        var res = strung.slice(1, strung.length-1);
+        $("input#state-sort").val(res);
+    })
+
+    $(document).on("focusout", "input#state-sort", function(e) {
+        maintab.search($("input#state-sort").val()).draw();
+        $("input#state-sort").val("("+$("input#state-sort").val()+")");
+        if($("input#state-sort").val() == "()")
+            $("input#state-sort").val("");
+    })
+
+     $(document).on("focusin", "input#division-sort", function(e) {
+        var strung = $("input#division-sort").val();
+        var res = strung.slice(1, strung.length-1);
+        $("input#division-sort").val(res);
+    })
+
+    $(document).on("focusout", "input#division-sort", function(e) {
+        maintab.search($("input#division-sort").val()).draw();
+        $("input#division-sort").val("("+$("input#division-sort").val()+")");
+        if($("input#division-sort").val() == "()")
+            $("input#division-sort").val("");
+    })
 
     $(document).on("focusout", "input.change-value", function(e) {
         if($(this).val() == "")
@@ -131,7 +212,9 @@ $(document).ready(function() {
         $(".dialog").css("display", "none");
 		$(".main").css("display","inherit").css("opacity","1");
 		$(".main").addClass("loaded");
-		//$("#watchlist").empty();
+		$("#watchlist").empty();
+		if(store.get("watching") == undefined)
+		$("#watchlist").append(_empty);
 		$(".save").addClass("unneeded");
 	    $(".save").attr("disabled");
 		init();
@@ -156,6 +239,11 @@ $(document).ready(function() {
             $(".main").css("display","inherit").css("opacity","1");
             $(".main").addClass("loaded");
             $(this).addClass("unneeded");
+            $(this).prop("disabled", true);
 		}
     })
+
+    $()
+
+
 });

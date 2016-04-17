@@ -4,10 +4,20 @@
     background-color: #F44336;
 }
 
-.status_loader{
+#liststatus{
     position: fixed;
     top: 55%;
     left: 41%;
+    list-style: none;
+    height: 143px;
+    padding: 0;
+}
+
+.status_loader{
+    top: 55%;
+    left: 41%;
+    margin-top: 6px;
+    list-style: none;
 }
 
 .lead{
@@ -274,6 +284,7 @@ label.sort > p{
 	background-color: white;
 	padding: 10px;
     border-bottom: 3px solid #1E88E5;
+    color: #949494;
 }
 
 a.sorter{
@@ -373,6 +384,7 @@ table.chart{
     margin-right: 16px;
     font-size: 16px;
     margin-left: 9px;
+    cursor: default;
 }
 
 .label-sort.error{
@@ -386,6 +398,7 @@ table.chart{
     float: right;
     border-radius: 30px;
     font-weight: 900;
+    cursor: default;
 }
 
 .score{

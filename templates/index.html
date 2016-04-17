@@ -14,10 +14,9 @@
 		</div>
 	</div>
 
-    <a id="status" class="status_loader hide">
-        <i class="material-icons md-18" style="margin-top: 3px">error_outline</i>
-        <p id="status_target" style="margin: 0; float: right; margin-top: 2px; margin-left: 7px;">error<></p>
-    </a>
+    <ul id="liststatus">
+	</ul>
+
 	<div class="loader_wrapper">
 		<div class="loader">
 			<div class="lead animated infinite bounce"></div>
@@ -34,7 +33,7 @@
 			</ul>
 		</div>
 
-		<input type="text" class="search" placeholder="Cyberpatriot ID (ex. 08-0217)">
+		<input type="text" id="mainsearch" class="search" placeholder="Cyberpatriot ID (ex. 08-0217)">
 
 		<div class="settings">
 			<a class="btn setting" href="#">Watch</a>
@@ -76,7 +75,7 @@
 			</div>
 
 			<div class="charter">
-				<table class="chart">
+				<!--<table class="chart">
 					<tr class="heading">
 						<td id="gr">GR</td>
 						<td id="dr">DR</td>
@@ -99,6 +98,21 @@
 						<td class="score">300</td>
 						<td class="penalty"><a class="error time">T</a> <a class="normal error images">M</a></td>
 					</tr>
+				</table>-->
+				<table id="example" class="chart" cellspacing="0" width="100%">
+					<thead>
+						<tr class="heading">
+							<th>GR</th>
+							<th>DR</th>
+							<th>Team ID</th>
+							<th>Loc.</th>
+							<th>Division</th>
+							<th>Tier</th>
+							<th>Time</th>
+							<th>Score</th>
+							<th>Penalties</th>
+						</tr>
+					</thead>
 				</table>
 			</div>
 		</div>
@@ -134,7 +148,7 @@
 	-->
 </body>
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/t/dt/dt-1.10.11,sc-1.4.1/datatables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/t/dt/dt-1.10.11,r-2.0.2,sc-1.4.1/datatables.min.js"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/notify.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/test.js') }}"></script>

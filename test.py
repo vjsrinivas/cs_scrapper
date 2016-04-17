@@ -43,6 +43,8 @@ def stream():
 @app.route('/data')
 def data():
     sca = ScrapCS("https://ancient-anchorage-16212.herokuapp.com/")
+    #wamp = '{ "data": [[ "Tiger Nixon", "System Architect", "Edinburgh", "5421", "2011/04/25", "$320,800"], [ "Michael Bruce", "Javascript Developer", "Singapore", "5384", "2011/06/27", "$183,000"], [ "Donna Snider", "Customer Support","New York", "4226", "2011/01/25", "$112,000"] ]}'
+    #return wamp
     return sca.product
 
 @app.route('/about')
