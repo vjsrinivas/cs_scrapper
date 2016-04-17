@@ -90,6 +90,7 @@ $(document).ready(function() {
         }
     })
 
+    var isDoneDrawn = false;
     var maintab = $('#example').DataTable( {
         "processing": true,
         "ajax": "../data",
@@ -113,6 +114,9 @@ $(document).ready(function() {
         "scroller": true,
         "scrollY": 500,
         "deferRender": true,
+        "initComplete": function( settings, json ) {
+                isDoneDrawn = true;
+            }
     } );
 
     setInterval( function () {
@@ -124,9 +128,7 @@ $(document).ready(function() {
     })
 
     if(typeof(EventSource) !== "undefined") {
-            var isDoneDrawn = false;
             var source = new EventSource("stream");
-            maintab.on('draw', function(){isDoneDrawn = true;});
             console.log(isDoneDrawn);
             source.onmessage = function(event) {
             var parser = event.data;
