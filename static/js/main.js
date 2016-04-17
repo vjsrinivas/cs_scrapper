@@ -114,9 +114,6 @@ $(document).ready(function() {
         "scroller": true,
         "scrollY": 500,
         "deferRender": true,
-        "initComplete": function( settings, json ) {
-                isDoneDrawn = true;
-            }
     } );
 
     setInterval( function () {
@@ -129,7 +126,6 @@ $(document).ready(function() {
 
     if(typeof(EventSource) !== "undefined") {
             var source = new EventSource("stream");
-            console.log(isDoneDrawn);
             source.onmessage = function(event) {
             var parser = event.data;
             objr = JSON.parse(parser);
