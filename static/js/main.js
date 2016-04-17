@@ -127,6 +127,7 @@ $(document).ready(function() {
             var isDoneDrawn = false;
             var source = new EventSource("stream");
             maintab.on('draw', function(){isDoneDrawn = true;});
+            console.log(isDoneDrawn);
             source.onmessage = function(event) {
             var parser = event.data;
             objr = JSON.parse(parser);
