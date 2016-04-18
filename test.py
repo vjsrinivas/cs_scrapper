@@ -3,9 +3,11 @@ import os
 from flask import Flask, Response, render_template
 from prim import Primitives
 from celery import Celery
-import time
+import time, datetime
 
 app = Flask(__name__)
+#default startup datetime -> now
+lastFetch = 
 
 def make_celery(app):
     celery = Celery(app.import_name, broker=app.config['CELERY_BROKER_URL'])

@@ -37,17 +37,26 @@ $(document).ready(function() {
 
         $("#sorter-score").off('click').on('click', function() {
             if(!$(this).hasClass("disabled"))
+            {
                 $("#label-container").append(templateScore);
+               window.maintab.columns(7).search($("input#score-sort").val().slice(1, $("input#score-score").val().length - 1)).draw();
+            }
         });
 
          $("#sorter-division").off('click').on('click', function() {
             if(!$(this).hasClass("disabled"))
+            {
                 $("#label-container").append(templateDivision);
+                 window.maintab.columns(4).search($("input#division-sort").val().slice(1,$("input#division-sort").val().length-1)).draw();
+            }
         })
 
          $("#sorter-location").off('click').on('click', function() {
             if(!$(this).hasClass("disabled"))
+            {
                 $("#label-container").append(templateState);
+                window.maintab.columns(3).search($("input#state-sort").val().slice(1,$("input#state-sort").val().length-1)).draw();
+            }
         })
     })
 })

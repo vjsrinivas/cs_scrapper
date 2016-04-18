@@ -34,7 +34,11 @@ $(document).ready(function() {
 	}
 
     $(document).on('click', '.material-icons.md-24', function()
-    { $(this).parent().remove(); });
+    {
+        $(this).parent().remove();
+        maintab.search("").columns().search("").draw();
+        console.log("afafa");
+    });
 
 	$('.setting').click(function() {
 		$('.main').css("opacity", "0").css("display","none");
@@ -90,7 +94,7 @@ $(document).ready(function() {
         }
     })
 
-    var maintab = $('#example').DataTable( {
+    window.maintab = $('#example').DataTable( {
         "processing": true,
         "ajax": "../data",
         "aoColumns": [
@@ -168,7 +172,7 @@ $(document).ready(function() {
     })
 
     $(document).on("focusout", "input#score-sort", function(e) {
-        maintab.search($("input#score-sort").val()).draw();
+        maintab.columns(7).search($("input#score-sort").val()).draw();
         $("input#score-sort").val("("+$("input#score-sort").val()+")");
         if($("input#score-sort").val() == "()")
             $("input#score-sort").val("");
@@ -181,7 +185,7 @@ $(document).ready(function() {
     })
 
     $(document).on("focusout", "input#state-sort", function(e) {
-        maintab.search($("input#state-sort").val()).draw();
+        maintab.columns(3).search($("input#state-sort").val()).draw();
         $("input#state-sort").val("("+$("input#state-sort").val()+")");
         if($("input#state-sort").val() == "()")
             $("input#state-sort").val("");
@@ -194,7 +198,7 @@ $(document).ready(function() {
     })
 
     $(document).on("focusout", "input#division-sort", function(e) {
-        maintab.search($("input#division-sort").val()).draw();
+        maintab.columns(4).search($("input#division-sort").val()).draw();
         $("input#division-sort").val("("+$("input#division-sort").val()+")");
         if($("input#division-sort").val() == "()")
             $("input#division-sort").val("");
