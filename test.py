@@ -3,11 +3,12 @@ import os
 from flask import Flask, Response, render_template
 from prim import Primitives
 from celery import Celery
-import time, datetime
+import time
 
 app = Flask(__name__)
 #default startup datetime -> now
-lastFetch = 
+lastFetch = time.strftime("%m/%d/%Y %I:%M:%S %p")
+print(lastFetch)
 
 def make_celery(app):
     celery = Celery(app.import_name, broker=app.config['CELERY_BROKER_URL'])
@@ -59,4 +60,4 @@ def event_stream():
 
 if __name__ == "__main__":
    port = int(os.environ.get("PORT", 5000))
-   app.run(host='0.0.0.0', port=port, threaded=True)
+   app.run(host='0.0.0.0', port=port, threaded=True, debug=True)
