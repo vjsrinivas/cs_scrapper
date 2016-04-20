@@ -27,7 +27,7 @@ $(document).ready(function() {
 
     function onPermissionGranted () {
         //console.log('Permission has been granted by the user');
-        doNotification();
+        doDecrease();
     }
 
     function onPermissionDenied () {
@@ -38,11 +38,11 @@ $(document).ready(function() {
         $("#notifications").attr('disabled', true);
     }
 
-    function doNotification () {
-        var myNotification = new Notify('Yo dawg!', {
-            body: '{0} has taken #{1} in Personal Rank',
-            tag: 'My unique id',
-            icon: "./static/imgs/new_leader.png ",
+    function doNotification (title, msg, tags, ico) {
+        var myNotification = new Notify(title, {
+            body: msg,
+            tag: tags,
+            icon: ico,
             notifyShow: onShowNotification,
             notifyClose: onCloseNotification,
             notifyClick: onClickNotification,
@@ -54,6 +54,26 @@ $(document).ready(function() {
         myNotification.show();
     }
 
+    function doIncrease()
+    {
+        doNotification("","", "", "./static/imgs/new_leader.png");
+    }
+
+    function doDecrease()
+    {
+        doNotification("","","","./static/imgs/drop_leader.png");
+    }
+
+    function doSwap()
+    {
+        doNotification("","","","./static/imgs/switch_leader.png");
+    }
+
+    function doTime()
+    {
+        doNotification("","","","./static/imgs/time_warning.png");
+    }
+
     $('#notifications').click(function() {
 
         var isCheck = $('#notifications').is(':checked');
@@ -62,7 +82,7 @@ $(document).ready(function() {
 		    $("#noti_keepalive").addClass("hide");
 			$(".choices").addClass("active");
 		    if (!Notify.needsPermission) {
-        	doNotification();
+        	doIncrease();
     	    }
     	    else if (Notify.isSupported()) {
          	Notify.requestPermission(onPermissionGranted, onPermissionDenied);

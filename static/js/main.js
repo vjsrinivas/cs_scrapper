@@ -1,3 +1,20 @@
+$.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+        var min = parseInt( $('.change-value').val(), 10 );
+        var max = parseInt( $('.change-value').val(), 10 );
+        var age = parseFloat( data[3] ) || 0; // use data for the age column
+
+        if ( ( isNaN( min ) && isNaN( max ) ) ||
+             ( isNaN( min ) && age <= max ) ||
+             ( min <= age   && isNaN( max ) ) ||
+             ( min <= age   && age <= max ) )
+        {
+            return true;
+        }
+        return false;
+    }
+);
+
 $(document).ready(function() {
 
     var _input = "";
@@ -89,6 +106,7 @@ $(document).ready(function() {
             var _watcherTemplate = "<li class=\"tag watch\"><i class=\"material-icons md-18\" style=\"float: left;\">remove_circle</i><p class=\"tag\">" + _input + "</p></li>";
             _watcher.push(_input);
             $("#watchlist").append(_watcherTemplate);
+            generateWatch($(this).val())
             $(this).val("");
             watcherChanged();
         }
@@ -132,12 +150,21 @@ $(document).ready(function() {
             source.onmessage = function(event) {
             var parser = event.data;
             objr = JSON.parse(parser);
-            if(objr['isDone'])
+            if(objr['isDone'] && objr['isAvailable'])
             {
                 event.target.close();
                 $('.loader_wrapper').addClass('hide');
 		        $('.main').addClass('loaded');
 		        setTimeout( function(){$('.main').css("opacity", "1")},100);
+            }
+            else if (!objr['isAvailable'])
+            {
+                console.log("Is the fucking website down again?");
+                event.target.close();
+                $("#liststatus").append('<li id="status" class="status_loader hide" style="background-color: #f1c40f !important;"><i class="material-icons md-18" style="margin-top: 3px">warning</i><p id="status_target" style="margin: 0; float: right; margin-top: 2px; margin-left: 7px;">error<></p></li>')
+	            $("#status").removeClass("hide");
+                $("#status_target").text('warning: fatal - Source Offline');
+                $("#liststatus").append('<li class="status_loader"><a href="./old" id="status_target" style="color: white; margin-left: 58px;">get last round logs</a></li>');
             }
             else
             {
@@ -145,7 +172,7 @@ $(document).ready(function() {
                 event.target.close();
                 $("#liststatus").append('<li id="status" class="status_loader hide"><i class="material-icons md-18" style="margin-top: 3px">error_outline</i><p id="status_target" style="margin: 0; float: right; margin-top: 2px; margin-left: 7px;">error<></p></li>')
 	            $("#status").removeClass("hide");
-                $("#status_target").text('error: Table did not draw');
+                $("#status_target").text('error: Table could not draw');
                 $("#liststatus").append('<li class="status_loader"><a href="./old" id="status_target" style="color: white; margin-left: 72px;">try alt. version</a></li>');
             }
         }
@@ -172,7 +199,7 @@ $(document).ready(function() {
     })
 
     $(document).on("focusout", "input#score-sort", function(e) {
-        maintab.columns(7).search($("input#score-sort").val()).draw();
+        maintab.columns(7).search($(parseInt("input#score-sort"), false, true, false).val()).draw();
         $("input#score-sort").val("("+$("input#score-sort").val()+")");
         if($("input#score-sort").val() == "()")
             $("input#score-sort").val("");
@@ -248,8 +275,4 @@ $(document).ready(function() {
             $(this).prop("disabled", true);
 		}
     })
-
-    $()
-
-
 });

@@ -4,8 +4,10 @@ from flask import Flask, Response, render_template
 from prim import Primitives
 from celery import Celery
 import time
+import requests
 
 app = Flask(__name__)
+sca = None
 #default startup datetime -> now
 lastFetch = time.strftime("%m/%d/%Y %I:%M:%S %p")
 print(lastFetch)
@@ -46,18 +48,31 @@ def stream():
 @app.route('/data')
 def data():
     sca = ScrapCS("https://ancient-anchorage-16212.herokuapp.com/")
-    #wamp = '{ "data": [[ "Tiger Nixon", "System Architect", "Edinburgh", "5421", "2011/04/25", "$320,800"], [ "Michael Bruce", "Javascript Developer", "Singapore", "5384", "2011/06/27", "$183,000"], [ "Donna Snider", "Customer Support","New York", "4226", "2011/01/25", "$112,000"] ]}'
-    #return wamp
     return sca.product
 
 @app.route('/about')
 def about():
     return render_template("about.html", title="About Me")
 
+@app.route("/donate")
+def donate():
+    return render_template("donate.html", title="Support Me")
+
+@app.route("/meta")
+def metadata():
+    res = Response("data: {\"lastFetch\": " + lastFetch + ", \"isAPI\": false, \"isLogging\": true}\n\n", content_type="text/event-stream")
+    return res
+
 def event_stream():
-    time.sleep(3)
-    return "data: {\"isDone\": true}\n\n"
+    #time.sleep(2)
+    try:
+        res = requests.get("https://ancient-anchorage-16212.herokuapp.com/")
+        if res.status_code == 200:
+            return "data: {\"isDone\": true, \"isAvailable\": true}\n\n"
+    except requests.exceptions.ConnectionError:
+        return "data: {\"isDone\": false, \"isAvailable\": false}\n\n"
+
 
 if __name__ == "__main__":
    port = int(os.environ.get("PORT", 5000))
-   app.run(host='0.0.0.0', port=port, threaded=True, debug=True)
+   app.run(host='0.0.0.0', port=port, threaded=True)

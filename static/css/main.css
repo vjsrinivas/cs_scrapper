@@ -713,3 +713,15 @@ p.empty{
     height: 23px;
     text-align: center;
 }
+
+.payment{
+    padding: 4px 12px;
+    background-color: #AB47BC;
+    border-radius: 20px;
+    color: #F3E5F5 !important;
+}
+
+.payment:hover{
+    background-color: #9C27B0;
+    color: white !important;
+}
