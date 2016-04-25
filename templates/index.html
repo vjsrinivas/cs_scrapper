@@ -26,7 +26,7 @@
 	<div class="main">
 		<div class="menu">
 			<h4 class="logo">CyberScrapper</h4>
-			<p class="lastmod">(Last Fetch: 02/28/2016 02:34:32 PM)</p>
+			<p class="lastmod">(Last Fetch: . . . )</p>
 			<ul class="menu">
 				<li class="menu"><a id="menu" class="payment" href="./donate"><i class="material-icons" style="font-size:12px; margin-right: 4px;">monetization_on</i>Donate</a></li>
 				<li class="menu"><a id="menu" href="#">Help</a></li>
@@ -56,7 +56,8 @@
 
 		<div class="chart">
 			<div class="watcher">
-
+				<div class="watcher_inner"></div>
+				<div class="watcher_body"></div>
 			</div>
 
 			<div id="label-container">
@@ -117,17 +118,23 @@
 				</div>
             </ul>
             <div class="watchaction">
-            <button class="btn save unneeded" disabled>Save</button> <button class="btn cancel">Cancel</button>
+            <button class="btn save unneeded" disabled>Save</button> <button class="btn cancel">Cancel</button><button class="btn more">More</button>
 		    </div>
+
+			<div class="dialog extended">
+				<a href="#" id="nationals"><div class="option_tag"><i class="circle" id="nationals_sub"></i><p class="option_tag_p">Highlight Nationals</p></div></a>
+				<a href="#" id="logdown"><div class="option_tag"><i class="circle" id="logdown_sub"></i><p class="option_tag_p">Enable Logging</p></div></a>
+				<a href="#" id="download"><div class="download_tag"><i class="material-icons" id="download_sub">file_download</i></div></a>
+			</div>
         </div>
 
 </body>
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/t/dt/dt-1.10.11,r-2.0.2,sc-1.4.1/datatables.min.js"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/store.min.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/watcher.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/notify.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/test.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/js_entry.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
 </html>

@@ -21,6 +21,7 @@ $(document).ready(function() {
     var _empty = "<div class=\"empty\"><i class=\"material-icons\">info_outline</i><p class=\"empty\">Collection is empty</p></div>";
     var _watcher = new Array();
     var _emptier = new Array();
+    window.predictNationals = false;
     init();
 
     function init()
@@ -54,7 +55,6 @@ $(document).ready(function() {
     {
         $(this).parent().remove();
         maintab.search("").columns().search("").draw();
-        console.log("afafa");
     });
 
 	$('.setting').click(function() {
@@ -76,15 +76,15 @@ $(document).ready(function() {
 		}
 	});
 
-    $(document).on("mouseenter",".material-icons",function(e) {
+    $(document).on("mouseenter",".material-icons.md-18",function(e) {
         $(this).addClass("active");
         $(this).parents("li").addClass("active");
-    }).on("mouseleave", ".material-icons", function(e){
+    }).on("mouseleave", ".material-icons.md-18", function(e){
         $(this).removeClass("active");
         $(this).parents("li").removeClass("active");
     });
 
-    $(document).on("click", ".material-icons", function(e) {
+    $(document).on("click", ".material-icons.md-18", function(e) {
         var _val = $(this).next(".tag").text();
         $(this).parents("li").remove();
         var x = _watcher.indexOf(_val);
@@ -106,7 +106,6 @@ $(document).ready(function() {
             var _watcherTemplate = "<li class=\"tag watch\"><i class=\"material-icons md-18\" style=\"float: left;\">remove_circle</i><p class=\"tag\">" + _input + "</p></li>";
             _watcher.push(_input);
             $("#watchlist").append(_watcherTemplate);
-            generateWatch($(this).val())
             $(this).val("");
             watcherChanged();
         }
@@ -124,7 +123,7 @@ $(document).ready(function() {
             {"mData": "tier"},
             {"mData": "time"},
             {"mData": "score"},
-            {"mData": "penalties"},
+            {"mData": "penalties.0.overtime"},
         ],
         "columnDefs": [
             { className: "my_class", "targets": [ 0,1 ] }
@@ -153,6 +152,8 @@ $(document).ready(function() {
             if(objr['isDone'] && objr['isAvailable'])
             {
                 event.target.close();
+                createLastFetch();
+                //CHECK FOR PREDICTNATIONALS IN STORE.JS
                 $('.loader_wrapper').addClass('hide');
 		        $('.main').addClass('loaded');
 		        setTimeout( function(){$('.main').css("opacity", "1")},100);
@@ -182,6 +183,16 @@ $(document).ready(function() {
 	    $("#status").removeClass("hide");
         $("#status_target").text('error: Browser not supported');
         $("#liststatus").append('<li class="status_loader"><a href="./old" id="status_target" style="color: white; margin-left: 72px;">try alt. version</a></li>');
+    }
+
+    function createLastFetch()
+    {
+        var src = new EventSource("meta");
+        src.onmessage = function(event)
+        {
+            var jsoner = JSON.parse(event.data)
+            $(".lastmod").text("(Last Fetch: " + jsoner["lastFetch"] + ")" )
+        }
     }
 
 
@@ -253,6 +264,11 @@ $(document).ready(function() {
 		init();
     })
 
+    $(".btn.more").click(function() {
+        $(this).toggleClass("active");
+        $(".dialog.extended").toggleClass("inactive ");
+    })
+
     $(".btn.save").click(function(){
 
         if(!($(".save").is(":disabled")))
@@ -268,11 +284,31 @@ $(document).ready(function() {
             if(store.enabled && _tempcon != "")
                 store.set("watching", _tempcon);
 
+            generateWatch($(this).val())
+
             $(".dialog").css("display", "none");
             $(".main").css("display","inherit").css("opacity","1");
             $(".main").addClass("loaded");
             $(this).addClass("unneeded");
             $(this).prop("disabled", true);
 		}
+    })
+
+    $("#nationals").click(function() {
+       $("#nationals_sub").toggleClass("on");
+
+       if($("#nationals_sub").hasClass("on"))
+           store.set('predictNationals','true')
+       else
+           store.set('predictNationals', 'false')
+    })
+
+    $("#logdown").click(function(){
+        $("#logdown_sub").toggleClass("on");
+        $("#download").toggleClass("active");
+    })
+
+    $("#download").click(function() {
+
     })
 });

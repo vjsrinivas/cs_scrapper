@@ -48,6 +48,8 @@ def stream():
 @app.route('/data')
 def data():
     sca = ScrapCS("https://ancient-anchorage-16212.herokuapp.com/")
+    global lastFetch
+    lastFetch = time.strftime("%m/%d/%Y %I:%M:%S %p")
     return sca.product
 
 @app.route('/about')
@@ -60,7 +62,7 @@ def donate():
 
 @app.route("/meta")
 def metadata():
-    res = Response("data: {\"lastFetch\": " + lastFetch + ", \"isAPI\": false, \"isLogging\": true}\n\n", content_type="text/event-stream")
+    res = Response("data: {\"lastFetch\": \"" + lastFetch + "\", \"isAPI\": false, \"isLogging\": true}\n\n", content_type="text/event-stream")
     return res
 
 def event_stream():
@@ -75,4 +77,4 @@ def event_stream():
 
 if __name__ == "__main__":
    port = int(os.environ.get("PORT", 5000))
-   app.run(host='0.0.0.0', port=port, threaded=True)
+   app.run(host='0.0.0.0', port=port, threaded=True, debug=True)

@@ -224,6 +224,7 @@ ul.sorter{
 	-moz-transition: .4s;
 	position: absolute;
 	border: 1px solid #E0E0E0;
+	z-index: 3000;
 }
 
 li.sorter{
@@ -557,12 +558,24 @@ div > a.score{
     position: fixed;
     padding: 20px;
     width: 500px;
+    height: 264px;
     background-color: white;
     border-bottom: 3px solid #1E88E5;
     left: 50%;
     margin-left: -250px;
     -webkit-transition: 1s ease-in;
     -moz-transition: 1s ease-in;
+}
+
+.dialog.extended{
+    background-color: #1E88E5 !important;
+    margin-top: 0 !important;
+    height: auto !important;
+    display: none !important;
+}
+
+.dialog.extended.inactive{
+    display: inherit !important;
 }
 
 .normal-searcher{
@@ -610,7 +623,7 @@ p.tag{
 .watchaction{
     margin-top: 30px;
     margin-left: 4px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .tag.watch > .material-icons.active{
@@ -725,3 +738,78 @@ p.empty{
     background-color: #9C27B0;
     color: white !important;
 }
+
+.more{
+    color: #676767 !important;
+    background-color: white !important;
+    border-color: #676767 !important;
+    margin-left: 30px;
+}
+
+.more:hover{
+    background-color: #676767 !important;
+    color: white !important;
+}
+
+.more.active{
+    background-color: #676767 !important;
+    color: white !important;
+}
+
+/*blocks for options in watcher*/
+
+.option_tag{
+    padding: 5px 15px 5px 15px;
+    background-color: #2196F3;
+    border-radius: 20px;
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+p.option_tag_p{
+    display: inline-block;
+    margin-bottom: 0;
+    margin-top: 2px;
+    margin-left: 10px;
+    float: right;
+}
+
+.download_tag{
+    padding: 4px 5px 4px 6px;
+    background-color: #2196F3;
+    border-radius: 20px;
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    font-size: 5px;
+    -webkit-transition: 0.3s;
+    display: none;
+}
+
+.active > .download_tag{
+    display: inherit !important;
+}
+
+.download_tag:hover{
+    background-color: #2079C7;
+}
+
+#download{
+    float: right;
+}
+
+.circle{
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    background-color: #1E88E5;
+    border-radius: 20px;
+    margin-top: 4px;
+}
+
+.circle.on{
+    background-color: #2ecc71 !important;
+}
+/*end blocks for options in watcher*/
