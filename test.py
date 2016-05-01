@@ -56,9 +56,9 @@ def data():
 def about():
     return render_template("about.html", title="About Me")
 
-@app.route("/donate")
+@app.route("/nationals")
 def donate():
-    return render_template("donate.html", title="Support Me")
+    return render_template("nationals.html", title="National Cards")
 
 @app.route("/meta")
 def metadata():

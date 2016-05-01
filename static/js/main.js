@@ -1,20 +1,3 @@
-$.fn.dataTable.ext.search.push(
-    function( settings, data, dataIndex ) {
-        var min = parseInt( $('.change-value').val(), 10 );
-        var max = parseInt( $('.change-value').val(), 10 );
-        var age = parseFloat( data[3] ) || 0; // use data for the age column
-
-        if ( ( isNaN( min ) && isNaN( max ) ) ||
-             ( isNaN( min ) && age <= max ) ||
-             ( min <= age   && isNaN( max ) ) ||
-             ( min <= age   && age <= max ) )
-        {
-            return true;
-        }
-        return false;
-    }
-);
-
 $(document).ready(function() {
 
     var _input = "";
@@ -22,6 +5,7 @@ $(document).ready(function() {
     var _watcher = new Array();
     var _emptier = new Array();
     window.predictNationals = false;
+    window.enableLog = false;
     init();
 
     function init()
@@ -128,6 +112,9 @@ $(document).ready(function() {
         "columnDefs": [
             { className: "my_class", "targets": [ 0,1 ] }
         ],
+        "columnDefs": [
+            {"orderable": false, "targets": [0,5,8]},
+        ],
         "sortable": true,
         "sDom": '<"top">rt<"bottom"lp><"clear">',
         "bLengthChange": false,
@@ -154,6 +141,29 @@ $(document).ready(function() {
                 event.target.close();
                 createLastFetch();
                 //CHECK FOR PREDICTNATIONALS IN STORE.JS
+                if(store.get("predictNationals") != undefined)
+                {
+                    if(store.get("predictNationals") == 'true')
+                    {
+                        predictNationals = true;
+                        $("#nationals_sub").addClass("on");
+                    }
+                    else
+                        predictNationals = false;
+                }
+
+                if(store.get("enableLog") != undefined)
+                {
+                    if(store.get("enableLog") == 'true')
+                    {
+                        enableLog = true;
+                        $("#logdown_sub").addClass("on");
+                        $("#download").addClass("active");
+                    }
+                    else
+                        enableLog = false;
+                }
+
                 $('.loader_wrapper').addClass('hide');
 		        $('.main').addClass('loaded');
 		        setTimeout( function(){$('.main').css("opacity", "1")},100);
@@ -210,10 +220,10 @@ $(document).ready(function() {
     })
 
     $(document).on("focusout", "input#score-sort", function(e) {
-        maintab.columns(7).search($(parseInt("input#score-sort"), false, true, false).val()).draw();
         $("input#score-sort").val("("+$("input#score-sort").val()+")");
         if($("input#score-sort").val() == "()")
             $("input#score-sort").val("");
+        maintab.draw();
     })
 
     $(document).on("focusin", "input#state-sort", function(e) {
@@ -298,17 +308,41 @@ $(document).ready(function() {
        $("#nationals_sub").toggleClass("on");
 
        if($("#nationals_sub").hasClass("on"))
+       {
            store.set('predictNationals','true')
+           window.predictNationals = true;
+       }
        else
+       {
            store.set('predictNationals', 'false')
+           window.predictNationals = false;
+       }
     })
 
     $("#logdown").click(function(){
         $("#logdown_sub").toggleClass("on");
         $("#download").toggleClass("active");
+
+        if($("#logdown_sub").hasClass("on"))
+        {
+            store.set("enableLog","true")
+            enableLog = true;
+        }
+        else
+        {
+            store.set('enableLog', 'false')
+            enableLog = false;
+        }
     })
 
-    $("#download").click(function() {
+    function download(filename, content) {
+        var pom = document.createElement('a');
+        pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+        pom.setAttribute('download', filename);
+        pom.click();
+    }
 
+    $("#download").click(function() {
+        download("test.txt", "Success :)");
     })
 });

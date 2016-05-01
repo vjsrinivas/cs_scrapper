@@ -38,8 +38,34 @@ $(document).ready(function() {
         $("#sorter-score").off('click').on('click', function() {
             if(!$(this).hasClass("disabled"))
             {
+                $.fn.dataTable.ext.search.push(
+                    function( settings, data, dataIndex ) {
+                        if($('.change-value').val().indexOf("-") != -1)
+                        {
+                        var trimmed_min = $('.change-value').val().slice(1, $('.change-value').val().indexOf("-"))
+                        var trimmed_max = $('.change-value').val().slice($('.change-value').val().indexOf("-")+1, $(".change-value").val().length-1)
+                        var min = parseInt( trimmed_min );
+                        var max = parseInt( trimmed_max );
+                        var age = parseFloat( data[1] ) || 0; // use data for the age column
+
+                        if ( ( isNaN( min ) && isNaN( max ) ) ||
+                             ( isNaN( min ) && age <= max ) ||
+                             ( min <= age   && isNaN( max ) ) ||
+                             ( min <= age   && age <= max ) )
+                        {
+                            return true;
+                        }
+                        return false;
+                        }
+                        else if(!isNaN($('.change-value').val()))
+                        {
+                            System.out.println("afaffa");
+                        }
+                    }
+                );
+
                 $("#label-container").append(templateScore);
-               window.maintab.columns(7).search($("input#score-sort").val().slice(1, $("input#score-score").val().length - 1)).draw();
+                maintab.draw();
             }
         });
 
