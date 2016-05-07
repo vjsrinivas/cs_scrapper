@@ -18,6 +18,12 @@ $(document).ready(function() {
                 var _watcherTemplate = "<li class=\"tag watch\"><i class=\"material-icons md-18\" style=\"float: left;\">remove_circle</i><p class=\"tag\">" + _watcher[i] + "</p></li>";
                 $("#watchlist").append(_watcherTemplate);
             }
+
+            if(globalWatch.length != 0)
+            {
+                quickSort(globalWatch, 0, globalWatch.length - 1);
+            }
+
         }
     }
 
@@ -37,6 +43,8 @@ $(document).ready(function() {
 
     $(document).on('click', '.material-icons.md-24', function()
     {
+        if($(this).parent().hasClass("label-sort"))
+            sortScore = false;
         $(this).parent().remove();
         maintab.search("").columns().search("").draw();
     });
@@ -335,6 +343,7 @@ $(document).ready(function() {
         }
     })
 
+    //http://stackoverflow.com/questions/22347756/how-to-export-a-string-to-a-file-in-html-phonegap
     function download(filename, content) {
         var pom = document.createElement('a');
         pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
@@ -343,6 +352,7 @@ $(document).ready(function() {
     }
 
     $("#download").click(function() {
-        download("test.txt", "Success :)");
+            download("test.txt", "Success :)");
+            console.log("afafa");
     })
 });

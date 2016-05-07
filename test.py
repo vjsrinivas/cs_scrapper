@@ -5,11 +5,13 @@ from prim import Primitives
 from celery import Celery
 import time
 import requests
+from werkzeug.contrib.cache import SimpleCache
 
 app = Flask(__name__)
 sca = None
 #default startup datetime -> now
 lastFetch = time.strftime("%m/%d/%Y %I:%M:%S %p")
+cache = SimpleCache()
 print(lastFetch)
 
 def make_celery(app):
@@ -47,10 +49,14 @@ def stream():
 
 @app.route('/data')
 def data():
-    sca = ScrapCS("https://ancient-anchorage-16212.herokuapp.com/")
+    rev_turn = cache.get('data_return')
+    print(rev_turn)
+    if rev_turn is None:
+        rev_turn = ScrapCS("https://ancient-anchorage-16212.herokuapp.com/").product
+        cache.set('data_return', rev_turn, timeout=600)
     global lastFetch
     lastFetch = time.strftime("%m/%d/%Y %I:%M:%S %p")
-    return sca.product
+    return rev_turn
 
 @app.route('/about')
 def about():

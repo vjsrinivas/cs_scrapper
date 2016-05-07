@@ -3,11 +3,12 @@ class WatchItem
     constructor(id){
         this.id = id;
         this.internalPos = 0;
-        this.score = 0;
+        this.score = Math.floor((Math.random() * 100)+1);
     }
 }
 
 window.globalWatch = [];
+
 
 if(store.get("watching") != undefined)
 {
@@ -23,17 +24,18 @@ if(store.get("watching") != undefined)
     //$(".watcher").append('<div class="watch-card"><div class="tracer disabled"></div><div class="heatmap disabled" title="Probability (based on EPOC): N/A"></div><i class="material-icons arrow success">arrow_upward</i><a class="rank_g">(GR) 1</a><a class="rank_d">(DR) 1</a><a class="rank_d">(PR) 1</a><a class="ID">08-0217</a><a class="score">300</a></div>');
 }
 
-var skipper = setInterval(updateMe, 30000);
-
+//var skipper = setInterval(updateMe, 30000);
+var test = [0,32,4,21,39,29,34];
+quickSort(test, 0, test.length - 1)
 function updateMe()
 {
     if(globalWatch.length == 0)
-        quickSort(globalWatch, 0, globalWatch.length);
+        quickSort(globalWatch, 0, globalWatch.length-1);
 }
 
 function generateWatch(id)
 {
-    clearInterval(skipper);
+    //clearInterval(skipper);
     var _watcher = store.get("watching");
     var grabber;
     $(".watcher_inner").empty();
