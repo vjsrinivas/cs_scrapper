@@ -75,7 +75,7 @@ $(document).ready(function() {
             if(globalWatch != null)
             {
             for(i = 0; i < globalWatch.length; i++)
-                $(".watcher_body").append('<div class="watch-card"><i class="material-icons arrow success">arrow_upward</i><a class="rank_g"><b>(GR)</b> ' +  globalWatch[i].gr  + ' </a><a class="rank_d"><b>(DR)</b> ' + globalWatch[i].dr + ' </a><a class="rank_d"><b>(PR)</b> ' + globalWatch[i].internalPos + ' </a><a class="ID">' + globalWatch[i].id + '</a><a class="score">300</a></div>');
+                $(".watcher_body").append('<div class="watch-card"><i class="material-icons arrow success">arrow_upward</i><a class="rank_g"><b>(GR)</b> ' +  globalWatch[i].gr  + ' </a><a class="rank_d"><b>(DR)</b> ' + globalWatch[i].dr + ' </a><a class="rank_d"><b>(PR)</b> ' + globalWatch[i].internalPos + ' </a><a class="ID">' + globalWatch[i].id + '</a><a class="score">' + globalWatch[i].score + '</a></div>');
             }
         }
     }
