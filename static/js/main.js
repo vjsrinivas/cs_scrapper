@@ -183,7 +183,7 @@ $(document).ready(function() {
             source.onmessage = function(event) {
             var parser = event.data;
             objr = JSON.parse(parser);
-            if(objr['isDone'] && objr['isAvailable'] && tableDone)
+            if(objr['isDone'] && objr['isAvailable'])
             {
                 event.target.close();
                 createLastFetch();
