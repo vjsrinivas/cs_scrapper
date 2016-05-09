@@ -4,9 +4,40 @@ $(document).ready(function() {
     var _empty = "<div class=\"empty\"><i class=\"material-icons\">info_outline</i><p class=\"empty\">Collection is empty</p></div>";
     var _watcher = new Array();
     var _emptier = new Array();
+    var tableDone = false;
     window.predictNationals = false;
     window.enableLog = false;
-    init();
+    window.maintab = $('#example').DataTable( {
+        "processing": true,
+        "ajax": "../data",
+        "aoColumns": [
+            {"mData": "gr"},
+            {"mData": "dr"},
+            {"mData": "teamid"},
+            {"mData": "loc"},
+            {"mData": "div"},
+            {"mData": "tier"},
+            {"mData": "time"},
+            {"mData": "score"},
+            {"mData": "penalties.0.overtime"},
+        ],
+        "columnDefs": [
+            { className: "my_class", "targets": [ 0,1 ] }
+        ],
+        "columnDefs": [
+            {"orderable": false, "targets": [2,5,8]},
+        ],
+        "sortable": true,
+        "sDom": '<"top">rt<"bottom"lp><"clear">',
+        "bLengthChange": false,
+        "scroller": true,
+        "scrollY": 500,
+        "deferRender": true,
+        "initComplete": function(settings, json) {
+            init();
+            tableDone = true;
+        }
+    } );
 
     function init()
     {
@@ -24,6 +55,28 @@ $(document).ready(function() {
                 quickSort(globalWatch, 0, globalWatch.length - 1);
             }
 
+            var numWatching = _watcher.length;
+            $(".watcher_inner").append('<h4 id="watch">Watch ('+ numWatching + ')</h4>');
+
+            for(i = 0; i < _watcher.length; i++)
+            {
+                globalWatch[i] = new WatchItem(_watcher[i]);
+                for(k = 0; k < maintab.data().length; k++)
+                {
+                    if(maintab.row(k).data().teamid == _watcher[i])
+                    {
+                        globalWatch[i].score = maintab.row(k).data().score
+                        globalWatch[i].gr = maintab.row(k).data().gr;
+                        globalWatch[i].dr = maintab.row(k).data().dr;
+                    }
+                }
+            }
+
+            if(globalWatch != null)
+            {
+            for(i = 0; i < globalWatch.length; i++)
+                $(".watcher_body").append('<div class="watch-card"><i class="material-icons arrow success">arrow_upward</i><a class="rank_g"><b>(GR)</b> ' +  globalWatch[i].gr  + ' </a><a class="rank_d"><b>(DR)</b> ' + globalWatch[i].dr + ' </a><a class="rank_d"><b>(PR)</b> ' + globalWatch[i].internalPos + ' </a><a class="ID">' + globalWatch[i].id + '</a><a class="score">300</a></div>');
+            }
         }
     }
 
@@ -43,10 +96,14 @@ $(document).ready(function() {
 
     $(document).on('click', '.material-icons.md-24', function()
     {
-        if($(this).parent().hasClass("label-sort"))
+        if($(this).parent().hasClass("sort-score"))
             sortScore = false;
+        if($(this).parent().hasClass("sort-state"))
+            sortState = false;
+        if($(this).parent().hasClass("sort-div"))
+            sortDivision = false;
+        maintab.draw();
         $(this).parent().remove();
-        maintab.search("").columns().search("").draw();
     });
 
 	$('.setting').click(function() {
@@ -93,43 +150,25 @@ $(document).ready(function() {
     $(".normal-searcher").keypress(function(e){
         if(e.which == 13)
         {
-            $(".empty").hide();
             _input = $(this).val();
-            var _watcherTemplate = "<li class=\"tag watch\"><i class=\"material-icons md-18\" style=\"float: left;\">remove_circle</i><p class=\"tag\">" + _input + "</p></li>";
-            _watcher.push(_input);
-            $("#watchlist").append(_watcherTemplate);
-            $(this).val("");
-            watcherChanged();
+            if(startWatching(_input))
+            {
+                $(this).removeClass("error");
+                $(".empty").hide();
+                var _watcherTemplate = "<li class=\"tag watch\"><i class=\"material-icons md-18\" style=\"float: left;\">remove_circle</i><p class=\"tag\">" + _input + "</p></li>";
+                _watcher.push(_input);
+                $("#watchlist").append(_watcherTemplate);
+                $(this).val("");
+                watcherChanged();
+            }
+            else
+            {
+                $(this).addClass("error")
+                alert(_input+" is not available in current table instance. (InvalidTeamID)")
+                _input = "";
+            }
         }
     })
-
-    window.maintab = $('#example').DataTable( {
-        "processing": true,
-        "ajax": "../data",
-        "aoColumns": [
-            {"mData": "gr"},
-            {"mData": "dr"},
-            {"mData": "teamid"},
-            {"mData": "loc"},
-            {"mData": "div"},
-            {"mData": "tier"},
-            {"mData": "time"},
-            {"mData": "score"},
-            {"mData": "penalties.0.overtime"},
-        ],
-        "columnDefs": [
-            { className: "my_class", "targets": [ 0,1 ] }
-        ],
-        "columnDefs": [
-            {"orderable": false, "targets": [0,5,8]},
-        ],
-        "sortable": true,
-        "sDom": '<"top">rt<"bottom"lp><"clear">',
-        "bLengthChange": false,
-        "scroller": true,
-        "scrollY": 500,
-        "deferRender": true,
-    } );
 
     setInterval( function () {
     maintab.ajax.reload(null, false);
@@ -144,7 +183,7 @@ $(document).ready(function() {
             source.onmessage = function(event) {
             var parser = event.data;
             objr = JSON.parse(parser);
-            if(objr['isDone'] && objr['isAvailable'])
+            if(objr['isDone'] && objr['isAvailable'] && tableDone)
             {
                 event.target.close();
                 createLastFetch();
@@ -231,6 +270,13 @@ $(document).ready(function() {
         $("input#score-sort").val("("+$("input#score-sort").val()+")");
         if($("input#score-sort").val() == "()")
             $("input#score-sort").val("");
+        if($(this).val() == "")
+            eventError(this);
+        else
+        {
+            $(this).parent().parent().removeClass("error");
+            $(this).css("border","none");
+        }
         maintab.draw();
     })
 
@@ -241,10 +287,17 @@ $(document).ready(function() {
     })
 
     $(document).on("focusout", "input#state-sort", function(e) {
-        maintab.columns(3).search($("input#state-sort").val()).draw();
         $("input#state-sort").val("("+$("input#state-sort").val()+")");
         if($("input#state-sort").val() == "()")
             $("input#state-sort").val("");
+        if($(this).val() == "")
+            eventError(this);
+        else
+        {
+            $(this).parent().parent().removeClass("error");
+            $(this).css("border","none");
+        }
+        maintab.draw();
     })
 
      $(document).on("focusin", "input#division-sort", function(e) {
@@ -254,13 +307,9 @@ $(document).ready(function() {
     })
 
     $(document).on("focusout", "input#division-sort", function(e) {
-        maintab.columns(4).search($("input#division-sort").val()).draw();
         $("input#division-sort").val("("+$("input#division-sort").val()+")");
         if($("input#division-sort").val() == "()")
             $("input#division-sort").val("");
-    })
-
-    $(document).on("focusout", "input.change-value", function(e) {
         if($(this).val() == "")
             eventError(this);
         else
@@ -268,6 +317,7 @@ $(document).ready(function() {
             $(this).parent().parent().removeClass("error");
             $(this).css("border","none");
         }
+        maintab.draw();
     })
 
     $(".cancel").click(function() {
@@ -279,7 +329,13 @@ $(document).ready(function() {
 		$("#watchlist").append(_empty);
 		$(".save").addClass("unneeded");
 	    $(".save").attr("disabled");
-		init();
+
+        _watcher = store.get("watching").split("\n");
+		for(var i = 0; i < _watcher.length; i++)
+        {
+            var _watcherTemplate = "<li class=\"tag watch\"><i class=\"material-icons md-18\" style=\"float: left;\">remove_circle</i><p class=\"tag\">" + _watcher[i] + "</p></li>";
+            $("#watchlist").append(_watcherTemplate);
+        }
     })
 
     $(".btn.more").click(function() {
@@ -352,7 +408,6 @@ $(document).ready(function() {
     }
 
     $("#download").click(function() {
-            download("test.txt", "Success :)");
-            console.log("afafa");
+            download("log_" + Date.now() + ".txt", window.logger);
     })
 });

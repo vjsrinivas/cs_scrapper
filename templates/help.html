@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Help</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/stylesheet.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+	<link rel="icon" type="image/png" href="./static/imgs/favicon.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="main loaded help" style="opacity: 1;">
+        <a href="#" id="reddit" data-placement="bottom" data-toggle="tooltip" data-original-title="Thread Support"><span><i class="fa fa-reddit-alien fa-3x" aria-hidden="true"></i></span></a>
+        <a href="#" id="docs" data-placement="bottom" data-toggle="tooltip" data-original-title="Documentation"><span><i class="material-icons" style="font-size: 3em; color: #90CAF9">library_books</i></span></a>
+    </div>
+</body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</html>

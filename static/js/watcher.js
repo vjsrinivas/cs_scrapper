@@ -3,35 +3,18 @@ class WatchItem
     constructor(id){
         this.id = id;
         this.internalPos = 0;
-        this.score = Math.floor((Math.random() * 100)+1);
+        this.score = 0;
+        this.gr = 0;
+        this.dr = 0;
     }
 }
 
 window.globalWatch = [];
+window.logger = "===\"" + Date.now() + "\"===\nSTARTING LOG...\n\n";
 
 
-if(store.get("watching") != undefined)
-{
-    var _watcher = store.get("watching").split("\n");
-    var numWatching = _watcher.length;
-    $(".watcher_inner").append('<h4 id="watch">Watch ('+ numWatching + ')</h4>');
-
-    for(i = 0; i < _watcher.length; i++)
-    {
-        globalWatch[i] = new WatchItem(_watcher[i]);
-        $(".watcher_body").append('<div class="watch-card"><i class="material-icons arrow success">arrow_upward</i><a class="rank_g"><b>(GR)</b> 1 </a><a class="rank_d"><b>(DR)</b> 1 </a><a class="rank_d"><b>(PR)</b> 1 </a><a class="ID">' + globalWatch[i].id + '</a><a class="score">300</a></div>');
-    }
-    //$(".watcher").append('<div class="watch-card"><div class="tracer disabled"></div><div class="heatmap disabled" title="Probability (based on EPOC): N/A"></div><i class="material-icons arrow success">arrow_upward</i><a class="rank_g">(GR) 1</a><a class="rank_d">(DR) 1</a><a class="rank_d">(PR) 1</a><a class="ID">08-0217</a><a class="score">300</a></div>');
-}
-
-//var skipper = setInterval(updateMe, 30000);
-var test = [0,32,4,21,39,29,34];
+var test = ["a","c","d","b"];
 quickSort(test, 0, test.length - 1)
-function updateMe()
-{
-    if(globalWatch.length == 0)
-        quickSort(globalWatch, 0, globalWatch.length-1);
-}
 
 function generateWatch(id)
 {
@@ -51,9 +34,19 @@ function generateWatch(id)
         grabber = store.get("watching").split("\n");
         $(".watcher_inner").append('<h4 id="watch">Watch (' + grabber.length + ')</h4>')
         globalWatch = [];
+
         for(i = 0; i < grabber.length; i++)
         {
             globalWatch[i] = new WatchItem(grabber[i])
+            for(k = 0; k < maintab.data().length; k++)
+            {
+                if(maintab.row(k).data().teamid == grabber[i])
+                {
+                    globalWatch[i].score = maintab.row(k).data().score
+                    globalWatch[i].gr = maintab.row(k).data().gr;
+                    globalWatch[i].dr = maintab.row(k).data().dr;
+                }
+            }
         }
     }
     else
@@ -73,9 +66,32 @@ function generateWatch(id)
             $(".watcher_body").empty();
             for(i = 0; i < globalWatch.length; i++)
             {
-                $(".watcher_body").append('<div class="watch-card"><i class="material-icons arrow success">arrow_upward</i><a class="rank_g"><b>(GR)</b> 1 </a><a class="rank_d"><b>(DR)</b> 1 </a><a class="rank_d"><b>(PR)</b> 1 </a><a class="ID">' + globalWatch[i].id + '</a><a class="score">300</a></div>');
+                $(".watcher_body").append('<div class="watch-card"><i class="material-icons arrow success">arrow_upward</i><a class="rank_g"><b>(GR)</b> ' +  globalWatch[i].gr  + ' </a><a class="rank_d"><b>(DR)</b> ' + globalWatch[i].dr + ' </a><a class="rank_d"><b>(PR)</b> ' + globalWatch[i].internalPos + ' </a><a class="ID">' + globalWatch[i].id + '</a><a class="score">' + globalWatch[i].score + '</a></div>');
             }
         }
+    }
+}
+
+function startWatching(entry)
+{
+    //check if ID is valid
+    var searchitem = maintab.column(2).data()
+    for(i = 0; i < searchitem.length; i++)
+    {
+        if(searchitem[i] == entry)
+            return true
+    }
+    return false;
+}
+
+
+var timekeeper = setInterval(trackWatch, 30000)
+function trackWatch()
+{
+    quickSort(globalWatch, 0, globalWatch.length-1)
+    for(i = 0; i < globalWatch.length; i++)
+    {
+
     }
 }
 
@@ -104,7 +120,7 @@ function partition(arr, pivot, left, right){
        partitionIndex = left;
 
    for(var i = left; i < right; i++){
-    if(arr[i] < pivotValue){
+    if(arr[i].score < pivotValue){
       swap(arr, i, partitionIndex);
       partitionIndex++;
     }

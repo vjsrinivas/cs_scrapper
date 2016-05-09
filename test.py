@@ -50,7 +50,7 @@ def stream():
 @app.route('/data')
 def data():
     rev_turn = cache.get('data_return')
-    print(rev_turn)
+    #print(rev_turn)
     if rev_turn is None:
         rev_turn = ScrapCS("https://ancient-anchorage-16212.herokuapp.com/").product
         cache.set('data_return', rev_turn, timeout=600)
@@ -58,9 +58,9 @@ def data():
     lastFetch = time.strftime("%m/%d/%Y %I:%M:%S %p")
     return rev_turn
 
-@app.route('/about')
+@app.route('/help')
 def about():
-    return render_template("about.html", title="About Me")
+    return render_template("help.html", title="Help")
 
 @app.route("/nationals")
 def donate():

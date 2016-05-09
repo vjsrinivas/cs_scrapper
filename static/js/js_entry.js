@@ -4,9 +4,9 @@ $(document).ready(function() {
     window.sortState = false;
     window.sortDivision = false;
 
-    var templateScore = String.raw`<div class="label-sort"><p class="para-sort">Score Range <input type="text" value="(100-300)" id="score-sort" class="change-value"/></p><i class="material-icons md-24">remove_circle</i></div>`;
-    var templateState = String.raw`<div class="label-sort"><p class="para-sort">State Filter <input type="text" value="(Tennessee)" id="state-sort" class="change-value"/></p><i class="material-icons md-24">remove_circle</i></div>`;
-    var templateDivision = String.raw`<div class="label-sort"><p class="para-sort">Division <input type="text" value="(Open)" id="division-sort" class="change-value"/></p><i class="material-icons md-24">remove_circle</i></div>`;
+    var templateScore = String.raw`<div class="label-sort sort-score"><p class="para-sort">Score Range <input type="text" value="(100-300)" id="score-sort" class="change-value"/></p><i class="material-icons md-24">remove_circle</i></div>`;
+    var templateState = String.raw`<div class="label-sort sort-state"><p class="para-sort">State Filter <input type="text" value="(Tennessee)" id="state-sort" class="change-value"/></p><i class="material-icons md-24">remove_circle</i></div>`;
+    var templateDivision = String.raw`<div class="label-sort sort-div"><p class="para-sort">Division <input type="text" value="(Open)" id="division-sort" class="change-value"/></p><i class="material-icons md-24">remove_circle</i></div>`;
 
     $('a#sort').click(function() {
         if(!$("a#sorter").hasClass("disabled"))
@@ -44,10 +44,10 @@ $(document).ready(function() {
                     function( settings, data, dataIndex ) {
                         if(sortScore)
                         {
-                            if($('.change-value').val().indexOf("-") != -1)
+                            if($('#score-sort').val().indexOf("-") != -1)
                             {
-                                var trimmed_min = $('.change-value').val().slice(1, $('.change-value').val().indexOf("-"))
-                                var trimmed_max = $('.change-value').val().slice($('.change-value').val().indexOf("-")+1, $(".change-value").val().length-1)
+                                var trimmed_min = $('#score-sort').val().slice(1, $('#score-sort').val().indexOf("-"))
+                                var trimmed_max = $('#score-sort').val().slice($('#score-sort').val().indexOf("-")+1, $("#score-sort").val().length-1)
                                 var min = parseInt( trimmed_min );
                                 var max = parseInt( trimmed_max );
 
@@ -69,11 +69,23 @@ $(document).ready(function() {
                                 }
                                 return false;
                             }
+                            else if(isNaN($('#score-sort').val()) && sortScore)
+                            {
+                                var value_trimmed = $('#score-sort').val().slice(1,$('#score-sort').val().length - 1);
+                                var value = parseInt( value_trimmed );
+
+                                var age = parseFloat( data[7] ) || 0; // use data for the age column
+
+                                if ( ( value == age) ||
+                                     ( value == age ))
+                                {
+                                    return true;
+                                }
+                                return false;
+                            }
                         }
-                        else if(!isNaN($('.change-value').val()))
-                        {
-                            System.out.println("afaffa");
-                        }
+                        else
+                            return true;
                     }
                 );
                 maintab.draw();
@@ -81,31 +93,48 @@ $(document).ready(function() {
         });
 
          $("#sorter-division").off('click').on('click', function() {
-            if(!$(this).hasClass("disabled"))
-            {
-                $("#label-container").append(templateDivision);
-                 window.maintab.columns(4).search($("input#division-sort").val().slice(1,$("input#division-sort").val().length-1)).draw();
-            }
-        })
-
-         $("#sorter-location").off('click').on('click', function() {
+            $("#label-container").append(templateDivision);
+            sortDivision = true
             if(!$(this).hasClass("disabled"))
             {
                 $.fn.dataTable.ext.search.push(
                     function( settings, data, dataIndex ) {
-                            var trimmed_val = $('.change-value').val().slice(1, $('.change-value').val.length-1)
-
-                            var age = data[3]; // use data for the age column
-
-                            if (trimmed_val != "")
-                            {
+                        if(sortDivision)
+                        {
+                            var trimmed_val = $('#division-sort').val().slice(1, $('#division-sort').val().length-1)
+                            var age = data[4]; // use data for the age column
+                            if (trimmed_val == age)
                                 return true;
-                            }
                             return false;
+                        }
+                        else
+                            return true;
                     }
                 );
-                $("#label-container").append(templateState);
-                window.maintab.columns(3).search($("input#state-sort").val().slice(1,$("input#state-sort").val().length-1)).draw();
+                maintab.draw();
+            }
+        })
+
+         $("#sorter-location").off('click').on('click', function() {
+            $("#label-container").append(templateState);
+            sortState = true;
+            if(!$(this).hasClass("disabled"))
+            {
+                $.fn.dataTable.ext.search.push(
+                    function( settings, data, dataIndex ) {
+                        if(sortState)
+                        {
+                            var trimmed_val = $('#state-sort').val().slice(1, $('#state-sort').val().length-1)
+                            var age = data[3]; // use data for the age column
+                            if (trimmed_val == age)
+                                return true;
+                            return false;
+                        }
+                        else
+                            return true;
+                    }
+                );
+                maintab.draw();
             }
         })
     })
