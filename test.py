@@ -50,10 +50,10 @@ def stream():
 @app.route('/data')
 def data():
     rev_turn = cache.get('data_return')
-    #print(rev_turn)
+    print("test")
     if rev_turn is None:
         rev_turn = ScrapCS("https://ancient-anchorage-16212.herokuapp.com/").product
-        cache.set('data_return', rev_turn, timeout=600)
+        cache.set('data_return', rev_turn, timeout=300)
     global lastFetch
     lastFetch = time.strftime("%m/%d/%Y %I:%M:%S %p")
     return rev_turn
@@ -80,6 +80,9 @@ def event_stream():
     except requests.exceptions.ConnectionError:
         return "data: {\"isDone\": false, \"isAvailable\": false}\n\n"
 
+@app.route('/favicon_dev.png')
+def favicon_dev():
+    return send_from_directory(os.path.join(app.root_path, 'static', 'images'), 'favicon_dev.png', mimetype='image/png')
 
 if __name__ == "__main__":
    port = int(os.environ.get("PORT", 5000))

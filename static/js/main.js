@@ -5,6 +5,7 @@ $(document).ready(function() {
     var _watcher = new Array();
     var _emptier = new Array();
     var tableDone = false;
+    var etch_temp_cache = 0;
     window.predictNationals = false;
     window.enableLog = false;
     window.maintab = $('#example').DataTable( {
@@ -27,6 +28,7 @@ $(document).ready(function() {
         "columnDefs": [
             {"orderable": false, "targets": [2,5,8]},
         ],
+        "fixedColumns": true,
         "sortable": true,
         "sDom": '<"top">rt<"bottom"lp><"clear">',
         "bLengthChange": false,
@@ -52,9 +54,11 @@ $(document).ready(function() {
 
             if(globalWatch.length != 0)
             {
-                quickSort(globalWatch, 0, globalWatch.length - 1);
+                globalWatch = mergeSort(globalWatch);
             }
 
+            console.log("Starting other services...");
+            implementNationals();
             var numWatching = _watcher.length;
             $(".watcher_inner").append('<h4 id="watch">Watch ('+ numWatching + ')</h4>');
 
@@ -68,15 +72,26 @@ $(document).ready(function() {
                         globalWatch[i].score = maintab.row(k).data().score
                         globalWatch[i].gr = maintab.row(k).data().gr;
                         globalWatch[i].dr = maintab.row(k).data().dr;
+                        globalWatch[i].time = maintab.row(k).data().time;
                     }
                 }
             }
 
             if(globalWatch != null)
             {
-            for(i = 0; i < globalWatch.length; i++)
-                $(".watcher_body").append('<div class="watch-card"><i class="material-icons arrow success">arrow_upward</i><a class="rank_g"><b>(GR)</b> ' +  globalWatch[i].gr  + ' </a><a class="rank_d"><b>(DR)</b> ' + globalWatch[i].dr + ' </a><a class="rank_d"><b>(PR)</b> ' + globalWatch[i].internalPos + ' </a><a class="ID">' + globalWatch[i].id + '</a><a class="score">' + globalWatch[i].score + '</a></div>');
+                globalWatch = mergeSort(globalWatch);
+                drawBlankTabs(globalWatch.length);
+                fillBlankTabs();
+                if(globalWatch.length != 0)
+                {
+                    for(i = 0; i < globalWatch.length; i++)
+                    {
+                        logThis("[ STARTING "+globalWatch[i].id+"... ]");
+                    }
+                }
+                else{logThis("[ EMPTY ]")}
             }
+            logThis("");
         }
     }
 
@@ -94,6 +109,36 @@ $(document).ready(function() {
             $(".empty").show();
 	}
 
+	function implementNationals()
+	{
+	    if(store.get("predictNationals") == "true")
+        {
+            var track = 0;
+            var etch = 0;
+            //clear first
+            for(i = 0; i < etch_temp_cache; i++)
+                    $(maintab.row(i).nodes()).removeClass("highlight");
+            //Open Division Highlighting
+            while(track != 12)
+            {
+                var temp = maintab.row(etch).data().div;
+                var temp2 = maintab.row(etch).data().tier
+                if(temp == "Open" && temp2 == "Platinum")
+                {
+                    $(maintab.row(etch).nodes()).addClass("highlight")
+                    track++;
+                }
+                etch++;
+            }
+            etch_temp_cache = etch;
+        }
+        else
+        {
+            for(i = 0; i < etch_temp_cache; i++)
+                $(maintab.row(i).nodes()).removeClass("highlight");
+        }
+	}
+
     $(document).on('click', '.material-icons.md-24', function()
     {
         if($(this).parent().hasClass("sort-score"))
@@ -102,6 +147,8 @@ $(document).ready(function() {
             sortState = false;
         if($(this).parent().hasClass("sort-div"))
             sortDivision = false;
+        if($(this).parent().hasClass("sort-tier"))
+            sortTier = false;
         maintab.draw();
         $(this).parent().remove();
     });
@@ -140,12 +187,10 @@ $(document).ready(function() {
         if(x != -1)
             _watcher.splice(x, x+1);
         if(_watcher.length == 0)
-           store.clear();
+           store.remove("watching");
         showEmptiness();
         watcherChanged();
     });
-
-    $()
 
     $(".normal-searcher").keypress(function(e){
         if(e.which == 13)
@@ -170,9 +215,7 @@ $(document).ready(function() {
         }
     })
 
-    setInterval( function () {
-    maintab.ajax.reload(null, false);
-    }, 500000 );
+    setInterval( function () { maintab.ajax.reload( function(json) { implementNationals(); redrawCardAuto();}, false); } , 300000 );
 
     $("#mainsearch").on("keyup", function() {
         maintab.columns(2).search($("#mainsearch").val()).draw();
@@ -320,6 +363,26 @@ $(document).ready(function() {
         maintab.draw();
     })
 
+    $(document).on("focusin", "input#tier-sort", function(e) {
+        var strung = $("input#tier-sort").val();
+        var res = strung.slice(1, strung.length-1);
+        $("input#tier-sort").val(res);
+    })
+
+    $(document).on("focusout", "input#tier-sort", function(e) {
+        $("input#tier-sort").val("("+$("input#tier-sort").val()+")");
+        if($("input#tier-sort").val() == "()")
+            $("input#tier-sort").val("");
+        if($(this).val() == "")
+            eventError(this);
+        else
+        {
+            $(this).parent().parent().removeClass("error");
+            $(this).css("border","none");
+        }
+        maintab.draw();
+    })
+
     $(".cancel").click(function() {
         $(".dialog").css("display", "none");
 		$(".main").css("display","inherit").css("opacity","1");
@@ -360,6 +423,16 @@ $(document).ready(function() {
 
             generateWatch($(this).val())
 
+            if(globalWatch.length != 0)
+            {
+                logThis("[ " + Date.now() + " ] CHANGE IN WATCHER")
+                for(i = 0; i < globalWatch.length; i++)
+                {
+                    logThis("[ STARTING "+globalWatch[i].id+"... ]");
+                }
+            }
+            else{ logThis("[ EMPTY ]"); }
+
             $(".dialog").css("display", "none");
             $(".main").css("display","inherit").css("opacity","1");
             $(".main").addClass("loaded");
@@ -375,11 +448,13 @@ $(document).ready(function() {
        {
            store.set('predictNationals','true')
            window.predictNationals = true;
+           implementNationals();
        }
        else
        {
            store.set('predictNationals', 'false')
            window.predictNationals = false;
+           implementNationals();
        }
     })
 

@@ -493,6 +493,10 @@ div.watch-card{
 	color: #F44336;
 }
 
+.undetermined{
+    color: #BDBDBD;
+}
+
 .rank_g{
     margin-left: 10px;
 }
@@ -813,3 +817,9 @@ p.option_tag_p{
     background-color: #2ecc71 !important;
 }
 /*end blocks for options in watcher*/
+
+
+.highlight {
+    background-color: #2ecc71 !important;
+    color: white;
+}

@@ -1,11 +1,16 @@
 
-if(Notification.permission == "denied"){
+if(Notification.permission == "denied")
+{
     $("#noti_fail").removeClass("hide");
     $("#notifications").attr('disabled', true);
+    logThis("[ NOTIFICATIONS ON ]");
 }
-else if(Notification.permission == "granted"){
+
+else if(Notification.permission == "granted")
+{
     $("#notifications").attr('checked', true);
     $(".choices").addClass("active");
+    logThis("[ NOTIFICATIONS ON ]");
 }
 
 function onShowNotification () {
@@ -25,8 +30,7 @@ function onErrorNotification () {
 }
 
 function onPermissionGranted () {
-    //console.log('Permission has been granted by the user');
-    doDecrease();
+    console.log('Permission has been granted by the user');
 }
 
 function onPermissionDenied () {
@@ -47,30 +51,35 @@ function doNotification (title, msg, tags, ico) {
         notifyClick: onClickNotification,
         notifyError: onErrorNotification,
         requireInteraction: false,
-        timeout: 5
+        timeout: 30
     });
 
     myNotification.show();
 }
 
-function doIncrease()
+function doLeader(msg)
 {
-    doNotification("","", "", "./static/imgs/new_leader.png");
+    doNotification("There is a new leader!",msg, "leader", "./static/imgs/new_leader.png");
 }
 
-function doDecrease()
+function doTop100(title)
 {
-    doNotification("","","","./static/imgs/drop_leader.png");
+    doNotification(title,"The team has hit the top 100 (global rank)","global rank hit 100","./static/imgs/drop_leader.png");
 }
 
-function doSwap()
+function doTop20(title)
 {
-    doNotification("","","","./static/imgs/switch_leader.png");
+    doNotification(title,"The team has hit the top 20 (division rank)","global rank hit 100","./static/imgs/drop_leader.png");
 }
 
-function doTime()
+function doTime5min(title)
 {
-    doNotification("","","","./static/imgs/time_warning.png");
+    doNotification(title,"The team is close to hitting the time limit!","time limit get on it loser","./static/imgs/time_warning.png");
+}
+
+function doTime(title)
+{
+    doNotification(title,"The team has hit the time limit! They risk point reduction!","time limit important","./static/imgs/time_warning.png");
 }
 
 $('#notifications').click(function() {
@@ -80,8 +89,9 @@ $('#notifications').click(function() {
     {
         $("#noti_keepalive").addClass("hide");
         $(".choices").addClass("active");
-        if (!Notify.needsPermission) {
-        doIncrease();
+        if (!Notify.needsPermission)
+        {
+            logThis("[ " + Date.now() + " ] NOTIFICATIONS TURNED ON")
         }
         else if (Notify.isSupported()) {
         Notify.requestPermission(onPermissionGranted, onPermissionDenied);
@@ -95,5 +105,6 @@ $('#notifications').click(function() {
             $("#noti_ic").addClass("animated fadeInUp");
         }
         $(".choices").removeClass("active");
+        logThis("[ " + Date.now() + " ] NOTIFICATIONS TURNED OFF")
     }
 });

@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import time
-
+import random
 
 class TeamData():
     __slots__ = ['gr', 'dr', 'teamid', 'loc', 'div', 'tier', 'sc_image', 'time', 'score', 'penalties']
@@ -96,6 +96,9 @@ class ScrapCS:
                     else:
                         continue
 
+                #Get rid of weird spacing issue in time property
+                teamdata[index].time = teamdata[index].time[1:]
+
                 meandata = "\t\t{\n"
                 meandata += str("\t\t\t\"{0}\": {1},\n").format("gr", teamdata[index].gr)
                 meandata += str("\t\t\t\"{0}\": {1},\n").format("dr", teamdata[index].dr)
@@ -105,7 +108,7 @@ class ScrapCS:
                 meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("tier", teamdata[index].tier)
                 meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("sc_image", teamdata[index].sc_image)
                 meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("time", teamdata[index].time)
-                meandata += str("\t\t\t\"{0}\": {1},\n").format("score", teamdata[index].score)
+                meandata += str("\t\t\t\"{0}\": {1},\n").format("score", random.randrange(300))#teamdata[index].score)
                 meandata += str("\t\t\t\"{0}\": [\n\t\t\t\t{{\n\t\t\t\t\t{1},\n\t\t\t\t\t{2}\n\t\t\t\t}}\n\t\t\t]\n").format("penalties", "\"overtime\": " + str.lower(str(teamdata[index].penalties[0])), "\"images\": " + str.lower(str(teamdata[index].penalties[1])))
                 meandata += str("\t\t\t}")
                 if index == len(teamdata)-1:

@@ -16,5 +16,24 @@
 }
 
 .help {
-    width: 400px !important;
+    width: 180px !important;
+}
+
+a.manage{
+    margin-left: 40px;
+}
+
+i.manage{
+    -webkit-transition: .25s ease-out;
+}
+
+i.manage:hover{
+    color: white !important;
+}
+
+.center{
+    position: absolute;
+    margin: -50px 0 0 -50px;
+    left: 42%;
+    top: 50%;
 }
