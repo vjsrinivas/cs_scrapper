@@ -1,3 +1,4 @@
+var isCheck = false;
 
 if(Notification.permission == "denied")
 {
@@ -42,19 +43,22 @@ function onPermissionDenied () {
 }
 
 function doNotification (title, msg, tags, ico) {
-    var myNotification = new Notify(title, {
-        body: msg,
-        tag: tags,
-        icon: ico,
-        notifyShow: onShowNotification,
-        notifyClose: onCloseNotification,
-        notifyClick: onClickNotification,
-        notifyError: onErrorNotification,
-        requireInteraction: false,
-        timeout: 30
-    });
-
-    myNotification.show();
+    isCheck = $('#notifications').is(':checked');
+    if(isCheck)
+    {
+        var myNotification = new Notify(title, {
+            body: msg,
+            tag: tags,
+            icon: ico,
+            notifyShow: onShowNotification,
+            notifyClose: onCloseNotification,
+            notifyClick: onClickNotification,
+            notifyError: onErrorNotification,
+            requireInteraction: false,
+            timeout: 30
+        });
+        myNotification.show();
+    }
 }
 
 function doLeader(msg)
@@ -64,12 +68,12 @@ function doLeader(msg)
 
 function doTop100(title)
 {
-    doNotification(title,"The team has hit the top 100 (global rank)","global rank hit 100","./static/imgs/drop_leader.png");
+    doNotification(title,"The team has hit the top 100 (global rank)","global rank hit 100","./static/imgs/top_leader.png");
 }
 
 function doTop20(title)
 {
-    doNotification(title,"The team has hit the top 20 (division rank)","global rank hit 100","./static/imgs/drop_leader.png");
+    doNotification(title,"The team has hit the top 20 (division rank)","global rank hit 100","./static/imgs/top_leader.png");
 }
 
 function doTime5min(title)
@@ -79,12 +83,11 @@ function doTime5min(title)
 
 function doTime(title)
 {
-    doNotification(title,"The team has hit the time limit! They risk point reduction!","time limit important","./static/imgs/time_warning.png");
+    doNotification(title,"The team has hit the time limit! They risk point reduction!","time limit important","./static/imgs/time_warning_6.png");
 }
 
 $('#notifications').click(function() {
-
-    var isCheck = $('#notifications').is(':checked');
+    isCheck = $('#notifications').is(':checked');
     if(isCheck)
     {
         $("#noti_keepalive").addClass("hide");

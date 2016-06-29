@@ -20,12 +20,13 @@ class TeamData():
 
 
 class ScrapCS:
+
     def __init__(self, address):
         self.address = address
         self.text = self.getRawScore()
         self.teamdata = self.processRaw(self.text)
         self.product = self.createJSON(self.teamdata)
-
+    trustme = True
     scoreOn = False
     processTime = None
 
@@ -117,4 +118,6 @@ class ScrapCS:
                     meandata += ",\n"
                 mainbody += meandata
             mainbody += "\t\t]\n\t}"
+            self.trustme = not self.trustme
+            print(self.trustme)
             return mainbody

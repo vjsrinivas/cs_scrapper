@@ -4,6 +4,8 @@ class WatchItem
         this.id = id;
         this.time = "";
         this.isWarned = false;
+        this.hitTop100 = false;
+        this.hitTop20 = false;
         this.internalPos = 0;
         this.score = 0;
         this.gr = 0;
@@ -75,6 +77,7 @@ function generateWatch(id)
         if(globalWatch.length != 0)
         {
             $(".watcher_body").empty();
+            globalWatch = mergeSort(globalWatch);
             drawBlankTabs(globalWatch.length);
             fillBlankTabs();
         }
@@ -192,6 +195,26 @@ function redrawCardAuto()
                 doTime(globalWatch[i].id + " has hit time limit (6:00)");
             }
             globalWatch[i].isWarned = true;
+        }
+
+        if(temper[i].gr > 100 && globalWatch[i].gr <= 100)
+        {
+            if(!globalWatch[i].hitTop100)
+            {
+                logThis("\t[META] " + globalWatch[i].id + " HAS BROKEN TOP 100 (GLOBAL) AND IS NOW " + globalWatch[i].gr);
+                doTop100(globalWatch[i].id + " has broken top 100 (global rank)!");
+            }
+            globalWatch[i].hitTop100 = true;
+        }
+
+        if(temper[i].dr > 20 && globalWatch[i].dr <= 20)
+        {
+            if(!globalWatch[i].hitTop20)
+            {
+                logThis("\t[META] " + globalWatch[i].id + " HAS BROKEN TOP 20 (DIVISION) AND IS NOW " + globalWatch[i].dr);
+                doTop100(globalWatch[i].id + " has broken top 20 (division rank)!");
+            }
+            globalWatch[i]. hitTop20 = true;
         }
 
         for(x = 0; x < temper.length; x++)

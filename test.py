@@ -50,7 +50,6 @@ def stream():
 @app.route('/data')
 def data():
     rev_turn = cache.get('data_return')
-    print("test")
     if rev_turn is None:
         rev_turn = ScrapCS("https://ancient-anchorage-16212.herokuapp.com/").product
         cache.set('data_return', rev_turn, timeout=300)

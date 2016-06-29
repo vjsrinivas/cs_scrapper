@@ -28,6 +28,28 @@ $(document).ready(function() {
         "columnDefs": [
             {"orderable": false, "targets": [2,5,8]},
         ],
+        "columnDefs": [
+            {
+                "targets": [8],
+                "render": function(data, type, row, meta)
+                    {
+                        if(row.penalties[0].images && row.penalties[0].overtime)
+                        {
+                            return "<span class=\"pen\" title=\"This time has multiple images running!\">I</span>" + "<span class=\"pen spacer\" title=\"This time has gone over the time limit!\">T</span>"
+                        }
+                        if(row.penalties[0].images == true && !row.penalties[0].overtime)
+                        {
+                            return "<span class=\"pen\" title=\"This time has multiple images running!\">I</span>" + "<span class=\"standard spacer\">T</span>"
+                        }
+                        if(!row.penalties[0].images && row.penalties[0].overtime == true)
+                        {
+                            return "<span class=\"standard\">I</span>" + "<span class=\"pen spacer\" title=\"This time has gone over the time limit!\"s>T</span>"
+                        }
+                        else
+                            return "<span class=\"standard\">I</span>" + "<span class=\"standard spacer\">T</span>";
+                    }
+            },
+        ],
         "fixedColumns": true,
         "sortable": true,
         "sDom": '<"top">rt<"bottom"lp><"clear">',
@@ -37,7 +59,7 @@ $(document).ready(function() {
         "deferRender": true,
         "initComplete": function(settings, json) {
             init();
-            tableDone = true;
+            $(".watcher.lead").hide();
         }
     } );
 
@@ -420,7 +442,6 @@ $(document).ready(function() {
             }
             if(store.enabled && _tempcon != "")
                 store.set("watching", _tempcon);
-
             generateWatch($(this).val())
 
             if(globalWatch.length != 0)
