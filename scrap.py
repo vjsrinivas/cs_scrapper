@@ -2,6 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 import time
 import random
+import httplib2
+from apiclient.discovery import build
+from oauth2client.client import GoogleCredentials
+from googleapiclient.http import MediaIoBaseUpload
+import io
+
 
 class TeamData():
     __slots__ = ['gr', 'dr', 'teamid', 'loc', 'div', 'tier', 'sc_image', 'time', 'score', 'penalties']
@@ -26,6 +32,7 @@ class ScrapCS:
         self.text = self.getRawScore()
         self.teamdata = self.processRaw(self.text)
         self.product = self.createJSON(self.teamdata)
+
     trustme = True
     scoreOn = False
     processTime = None
@@ -119,5 +126,52 @@ class ScrapCS:
                 mainbody += meandata
             mainbody += "\t\t]\n\t}"
             self.trustme = not self.trustme
-            print(self.trustme)
             return mainbody
+
+def insert_file(service, title, description, parent_id, mime_type, filename):
+    """Insert new file.
+
+    Args:
+    service: Drive API service instance.
+    title: Title of the file to insert, including the extension.
+    description: Description of the file to insert.
+    parent_id: Parent folder's ID.
+    mime_type: MIME type of the file to insert.
+    filename: Filename of the file to insert.
+    Returns:
+    Inserted file metadata if successful, None otherwise.
+    """
+    media_body = MediaIoBaseUpload(filename, mimetype = mime_type, resumable=True)
+    body = {
+        'title': title,
+        'description': description,
+        'mimeType': mime_type
+    }
+    # Set the parent folder.
+    if parent_id:
+        body['parents'] = [{'id': parent_id}]
+
+    try:
+        file = service.files().insert(
+        body=body,
+        media_body=media_body).execute()
+
+        # Uncomment the following line to print the File ID
+        # print 'File ID: %s' % file['id']
+
+        return file
+    except Exception as error:
+        print('An error occured: {0}'.format(error))
+    return None
+
+def log_data(source_input):
+    print("Starting log...")
+    credentials = GoogleCredentials("ya29.Ci9AAwUmt7mV1swYEcywv3Pp0PLztLF52QknRjjAdZXVs4T-qz9LsRvy4S4XmB4o4Q", "766879087037-6q4sijcnuuc0tovtocb9l15et5c1fguv.apps.googleusercontent.com", "OfcMYdayeLeqY_HSbzVgapwX", "1/zAWOGo306IarCj_N0ccqMvWDtT6kwSnKhfxVGcRA2OU","","https://accounts.google.com/o/oauth2/token","my-user-agent/1.0")
+    http = httplib2.Http()
+    http = credentials.authorize(http)
+    service = build('drive', 'v2', http=http)
+
+    fh = io.BytesIO(bytes(source_input, 'utf-8'))
+    rerun = insert_file(service, "{0}.txt".format(int(time.time())), "[{0}] - CyberPatriot Unofficial Scoreboard Logs".format(int(time.time())), "", "application/json", fh)
+    print("Ending log...")
+    return rerun

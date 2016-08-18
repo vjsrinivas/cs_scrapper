@@ -11,6 +11,7 @@ $(document).ready(function() {
     window.maintab = $('#example').DataTable( {
         "processing": true,
         "ajax": "../data",
+        "fixedColumns": true,
         "aoColumns": [
             {"mData": "gr"},
             {"mData": "dr"},
@@ -35,15 +36,15 @@ $(document).ready(function() {
                     {
                         if(row.penalties[0].images && row.penalties[0].overtime)
                         {
-                            return "<span class=\"pen\" title=\"This time has multiple images running!\">I</span>" + "<span class=\"pen spacer\" title=\"This time has gone over the time limit!\">T</span>"
+                            return "<span class=\"pen\" title=\"This team has multiple images running!\">I</span>" + "<span class=\"pen spacer\" title=\"This team has gone over the time limit!\">T</span>"
                         }
                         if(row.penalties[0].images == true && !row.penalties[0].overtime)
                         {
-                            return "<span class=\"pen\" title=\"This time has multiple images running!\">I</span>" + "<span class=\"standard spacer\">T</span>"
+                            return "<span class=\"pen\" title=\"This team has multiple images running!\">I</span>" + "<span class=\"standard spacer\">T</span>"
                         }
                         if(!row.penalties[0].images && row.penalties[0].overtime == true)
                         {
-                            return "<span class=\"standard\">I</span>" + "<span class=\"pen spacer\" title=\"This time has gone over the time limit!\"s>T</span>"
+                            return "<span class=\"standard\">I</span>" + "<span class=\"pen spacer\" title=\"This team has gone over the time limit!\"s>T</span>"
                         }
                         else
                             return "<span class=\"standard\">I</span>" + "<span class=\"standard spacer\">T</span>";
@@ -95,6 +96,7 @@ $(document).ready(function() {
                         globalWatch[i].gr = maintab.row(k).data().gr;
                         globalWatch[i].dr = maintab.row(k).data().dr;
                         globalWatch[i].time = maintab.row(k).data().time;
+                        globalWatch[i].state = maintab.row(k).data().loc;
                     }
                 }
             }
@@ -172,7 +174,28 @@ $(document).ready(function() {
         if($(this).parent().hasClass("sort-tier"))
             sortTier = false;
         maintab.draw();
+        if ($("#foo > div").length == 0)
+        {
+            $("#clearer").remove();
+            window.clearMe = false;
+        }
         $(this).parent().remove();
+    });
+
+    $(document).on('click', '#clearer', function()
+    {
+        $("#label-holder").empty();
+        $(this).remove();
+        if($(this).parent().hasClass("sort-score"))
+            sortScore = false;
+        if($(this).parent().hasClass("sort-state"))
+            sortState = false;
+        if($(this).parent().hasClass("sort-div"))
+            sortDivision = false;
+        if($(this).parent().hasClass("sort-tier"))
+            sortTier = false;
+        maintab.draw();
+        window.clearMe = false;
     });
 
 	$('.setting').click(function() {

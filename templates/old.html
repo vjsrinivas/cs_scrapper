@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CyberPatriot Unofficial Scoreboard (old)</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/stylesheet.css') }}">
+
+</head>
+<body>
+    <div class="main" style="display: inherit; opacity: 1;">
+        <div class="charter">
+                    <table id="example" class="chart" cellspacing="0" width="100%">
+                        <thead>
+                            <tr class="heading">
+                                <th>GR</th>
+                                <th>DR</th>
+                                <th>Team ID</th>
+                                <th>Loc.</th>
+                                <th>Division</th>
+                                <th>Tier</th>
+                                <th>Time</th>
+                                <th>Score</th>
+                                <th>Penalties</th>
+                            </tr>
+                        </thead>
+                    </table>
+        </div>
+    </div>
+</body>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/t/dt/dt-1.10.11,r-2.0.2,sc-1.4.1/datatables.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+</html>

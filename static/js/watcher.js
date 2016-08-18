@@ -11,6 +11,7 @@ class WatchItem
         this.gr = 0;
         this.dr = 0;
         this.status = 0; //0 = undetermined | 1 = increased | 2 = decreased
+        this.state = "unknown";
     }
 }
 
@@ -46,7 +47,8 @@ function generateWatch(id)
                     globalWatch[i].score = maintab.row(k).data().score
                     globalWatch[i].gr = maintab.row(k).data().gr;
                     globalWatch[i].dr = maintab.row(k).data().dr;
-                    globalWatch[i].time = maintab.row(k).data().time
+                    globalWatch[i].time = maintab.row(k).data().time;
+                    globalWatch[i].state = maintab.row(k).data().loc;
                 }
             }
         }
@@ -136,10 +138,171 @@ function fillBlankTabs()
         //
         if($("#watcher_"+i).length != 0)
         {
-            $("#watcher_"+i).append(taker + '<a class="rank_g"><b>(GR)</b> ' + globalWatch[i].gr  + ' </a><a class="rank_d"><b>(DR)</b> ' + globalWatch[i].dr + ' </a><a class="rank_d"><b>(PR)</b> ' + globalWatch[i].internalPos + ' </a><a class="ID">' + globalWatch[i].id + '</a><a class="score">' + globalWatch[i].score + '</a>')
+            $("#watcher_"+i).append(taker + '<a class="rank_g"><b>(GR)</b> ' + globalWatch[i].gr  + ' </a><a class="rank_d"><b>(DR)</b> ' + globalWatch[i].dr + ' </a><a class="rank_d"><b>(PR)</b> ' + globalWatch[i].internalPos + ' </a><a class="ID">' + globalWatch[i].id + '</a><a class="state">' + globalWatch[i].state + '</a> <a class="state-ico">' + getStateLetter(globalWatch[i].state) + '</a><a class="score">' + globalWatch[i].score + '</a>')
         }
         else { console.log("threw error: Empty draw not found! <" + i + ">"); }
     }
+}
+
+function getStateLetter(input)
+{
+    var output = "";
+    switch(input)
+    {
+        case "Alabama":
+            output = "B";
+            break;
+        case "Alaska":
+            output = "A";
+            break;
+        case "Arizona":
+            output = "D";
+            break;
+        case "Arkansas":
+            output = "C";
+            break;
+        case "California":
+            output = "E";
+            break;
+        case "Colorado":
+            output = "F";
+            break;
+        case "Connecticut":
+            output = "G";
+            break;
+        case "Delware":
+            output = "H";
+            break;
+        case "Florida":
+            output = "I";
+            break;
+        case "Georgia":
+            output = "J";
+            break;
+        case "Hawaii":
+            output = "K";
+            break;
+        case "Idaho":
+            output = "M";
+            break;
+        case "Illinois":
+            output = "N";
+            break;
+        case "Indiana":
+            output = "O";
+            break;
+        case "Iowa":
+            output = "L";
+            break;
+        case "Kansas":
+            output = "P";
+            break;
+        case "Kentucky":
+            output = "Q";
+            break;
+        case "Louisiana":
+            output = "R";
+            break;
+        case "Maine":
+            output = "U";
+            break;
+        case "Maryland":
+            output = "T";
+            break;
+        case "Massachusetts":
+            output = "S";
+            break;
+        case "Michigan":
+            output = "V";
+            break;
+        case "Minnesota":
+            output = "W";
+            break;
+        case "Mississippi":
+            output = "Y";
+            break;
+        case "Missouri":
+            output = "X";
+            break;
+        case "Montanan":
+            output = "Z";
+            break;
+        case "Nebraska":
+            output = "c";
+            break;
+        case "Nevada":
+            output = "g";
+            break;
+        case "New Hampshire":
+            output = "d";
+            break;
+        case "New Jersey":
+            output = "e";
+            break;
+        case "New Mexico":
+            output = "f";
+            break;
+        case "New York":
+            output = "h";
+            break;
+        case "North Carolina":
+            output = "a";
+            break;
+        case "North Dakota":
+            output = "b";
+            break;
+        case "Ohio":
+            output = "i";
+            break;
+        case "Oklahoma":
+            output = "j";
+            break;
+        case "Oregon":
+            output = "k";
+            break;
+        case "Pennsylvania":
+            output = "l";
+            break;
+        case "Rhode Island":
+            output = "m";
+            break;
+        case "South Carolina":
+            output = "n";
+            break;
+        case "South Dakota":
+            output = "o";
+            break;
+        case "Tennessee":
+            output = "p";
+            break;
+        case "Texas":
+            output = "q";
+            break;
+        case "Utah":
+            output = "z";
+            break;
+        case "Vermont":
+            output = "t";
+            break;
+        case "Virginia":
+            output = "s";
+            break;
+        case "Washington":
+            output = "u";
+            break;
+        case "West Virginia":
+            output = "w";
+            break;
+        case "Wiconsin":
+            output = "v";
+            break;
+        case "Wyoming":
+            output = "x";
+            break;
+        default:
+            output = "unknown";
+    }
+    return output;
 }
 
 function redrawCardAuto()
@@ -157,7 +320,8 @@ function redrawCardAuto()
                 globalWatch[i].score = maintab.row(k).data().score
                 globalWatch[i].gr = maintab.row(k).data().gr;
                 globalWatch[i].dr = maintab.row(k).data().dr;
-                globalWatch[i].time = maintab.row(k).data().time
+                globalWatch[i].time = maintab.row(k).data().time;
+                globalWatch[i].state = maintab.row(k).data().loc;
             }
         }
     }

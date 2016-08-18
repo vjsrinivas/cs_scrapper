@@ -74,7 +74,7 @@ body{
 div.main{
 	margin-right: auto;
 	margin-left: auto;
-	width: 660px;
+	width: 800px;
 	opacity: 0;
 	display: none;
 	-webkit-transition: opacity 1s cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -528,7 +528,20 @@ div.watch-card{
 	font-weight: 900;
 }
 
-.rank_g, .rank_d, .ID{
+.state-ico{
+    font-family: "StateFaceRegular";
+    color: #949494 !important;
+}
+
+.state{
+    margin-left: 20px;
+}
+
+.state-ico{
+    margin-left: 10px;
+}
+
+.rank_g, .rank_d, .ID, .state{
 	color: #949494;
 	font-size: 20px;
 }
@@ -843,4 +856,30 @@ p.option_tag_p{
     color: white;
 }
 
-/*
+#clearer{
+    padding: 3px;
+    -webkit-transition: .2s;
+    cursor: default;
+    color: #BBDEFB;
+    border-radius: 30px;
+}
+
+#clearer:hover{
+    color: white;
+    background-color: #F44336;
+}
+
+@font-face {
+     font-family: 'StateFaceRegular';
+     src: url('../font/webfont/stateface-regular-webfont.eot');
+     src: url('../font/webfont/stateface-regular-webfont.eot?#iefix') format('embedded-opentype'),
+          url('../font/webfont/stateface-regular-webfont.woff') format('woff'),
+          url('../font/webfont/stateface-regular-webfont.ttf') format('truetype'),
+          url('../font/webfont/stateface-regular-webfont.svg#StateFaceRegular') format('svg');
+     font-weight: normal;
+     font-style: normal;
+ }
+
+.dataTables_scrollBody{
+    border-bottom: none !important;
+}

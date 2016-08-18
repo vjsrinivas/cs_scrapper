@@ -4,14 +4,16 @@ $(document).ready(function() {
     window.sortState = false;
     window.sortDivision = false;
     window.sortTier = false;
+    window.clearMe = false;
 
     var templateScore = String.raw`<div class="label-sort sort-score"><p class="para-sort">Score Range <input type="text" value="(100-300)" id="score-sort" class="change-value"/></p><i class="material-icons md-24">remove_circle</i></div>`;
     var templateState = String.raw`<div class="label-sort sort-state"><p class="para-sort">State Filter <input type="text" value="(Tennessee)" id="state-sort" class="change-value"/></p><i class="material-icons md-24">remove_circle</i></div>`;
     var templateDivision = String.raw`<div class="label-sort sort-div"><p class="para-sort">Division <input type="text" value="(Open)" id="division-sort" class="change-value"/></p><i class="material-icons md-24">remove_circle</i></div>`;
     var templateTier = String.raw`<div class="label-sort sort-tier"><p class="para-sort">Tier <input type="text" value="(Platinum)" style="width: 65px;" id="tier-sort" class="change-value"/></p><i class="material-icons md-24">remove_circle</i></div>`;
-
+    var templateClear = String.raw`<i class="material-icons" id="clearer" title="Clear All">clear_all</i>`;
 
     $('a#sort').click(function() {
+
         if(!$("a#sorter").hasClass("disabled"))
         {
             if(document.getElementById("score-sort"))
@@ -46,11 +48,21 @@ $(document).ready(function() {
             { $("#sorter-tier").removeClass("disabled"); sortTier = false; }
         }
 
+        $("a.sorter").off('click').on('click', function()
+        {
+            console.log("asfsaf");
+            if(!$(this).hasClass("disabled") && !clearMe)
+            {
+                $("#label-clear").append(templateClear)
+                clearMe = true;
+            }
+        });
+
         $("#sorter-score").off('click').on('click', function() {
-            $("#label-container").append(templateScore);
             sortScore = true;
             if(!$(this).hasClass("disabled"))
             {
+                $("#label-holder").append(templateScore);
                 $.fn.dataTable.ext.search.push(
                     function( settings, data, dataIndex ) {
                         if(sortScore)
@@ -100,14 +112,15 @@ $(document).ready(function() {
                     }
                 );
                 maintab.draw();
+
             }
         });
 
-         $("#sorter-division").off('click').on('click', function() {
-            $("#label-container").append(templateDivision);
+        $("#sorter-division").off('click').on('click', function() {
             sortDivision = true
             if(!$(this).hasClass("disabled"))
             {
+                $("#label-holder").append(templateDivision);
                 $.fn.dataTable.ext.search.push(
                     function( settings, data, dataIndex ) {
                         if(sortDivision)
@@ -126,11 +139,11 @@ $(document).ready(function() {
             }
         })
 
-         $("#sorter-location").off('click').on('click', function() {
-            $("#label-container").append(templateState);
+        $("#sorter-location").off('click').on('click', function() {
             sortState = true;
             if(!$(this).hasClass("disabled"))
             {
+                $("#label-holder").append(templateState);
                 $.fn.dataTable.ext.search.push(
                     function( settings, data, dataIndex ) {
                         if(sortState)
@@ -150,10 +163,10 @@ $(document).ready(function() {
         })
 
         $("#sorter-tier").off('click').on('click', function() {
-            $("#label-container").append(templateTier);
             sortTier = true;
             if(!$(this).hasClass("disabled"))
             {
+            $("#label-holder").append(templateTier);
                 $.fn.dataTable.ext.search.push(
                     function( settings, data, dataIndex ) {
                         if(sortTier)
