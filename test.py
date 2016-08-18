@@ -81,7 +81,7 @@ def favicon_dev():
 
 def initial_runner():
     scrap.log_data(ScrapCS("https://ancient-anchorage-16212.herokuapp.com/").product)
-    threading.Timer(60, initial_runner).start()
+    threading.Timer(1800, initial_runner).start()
 
 def run_server():
     initial_runner()
