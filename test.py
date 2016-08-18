@@ -83,15 +83,10 @@ def initial_runner():
     scrap.log_data(ScrapCS("https://ancient-anchorage-16212.herokuapp.com/").product)
     threading.Timer(60, initial_runner).start()
 
-def run_server(dom):
+def run_server():
     initial_runner()
-    print("{}".format(dom))
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port, threaded=True)
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        raise Exception("Must provide domain for application execution.")
-    else:
-        DOM = sys.argv[1]
-        run_server(DOM)
+    run_server()
