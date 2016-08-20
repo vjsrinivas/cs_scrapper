@@ -172,6 +172,6 @@ def log_data(source_input):
     service = build('drive', 'v2', http=http)
 
     fh = io.BytesIO(bytes(source_input))
-    rerun = insert_file(service, "{0}.txt".format(int(time.time())), "[{0}] - CyberPatriot Unofficial Scoreboard Logs".format(int(time.time())), "", "application/json", fh)
+    rerun = insert_file(service, "{0}.json".format(int(time.time())), "[{0}] - CyberPatriot Unofficial Scoreboard Logs".format(int(time.time())), "", "application/json", fh)
     print("Ending log...")
     return rerun
