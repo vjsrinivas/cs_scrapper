@@ -135,6 +135,7 @@ $(document).ready(function() {
 
 	function implementNationals()
 	{
+	/*
 	    if(store.get("predictNationals") == "true")
         {
             var track = 0;
@@ -161,6 +162,7 @@ $(document).ready(function() {
             for(i = 0; i < etch_temp_cache; i++)
                 $(maintab.row(i).nodes()).removeClass("highlight");
         }
+        */
 	}
 
     $(document).on('click', '.material-icons.md-24', function()

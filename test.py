@@ -49,8 +49,8 @@ def old():
 def data():
     rev_turn = cache.get('data_return')
     if rev_turn is None:
-        rev_turn = ScrapCS("https://ancient-anchorage-16212.herokuapp.com/").product
-        #rev_turn = ScrapCS("https://scoreboard.uscyberpatriot.com/")
+        #rev_turn = ScrapCS("https://ancient-anchorage-16212.herokuapp.com/").product
+        rev_turn = ScrapCS("https://scoreboard.uscyberpatriot.org/").product
         cache.set('data_return', rev_turn, timeout=300)
     global lastFetch
     lastFetch = time.strftime("%m/%d/%Y %I:%M:%S %p")
@@ -69,7 +69,7 @@ def event_stream():
     #time.sleep(2)
     try:
         #res = requests.get("https://ancient-anchorage-16212.herokuapp.com/")
-        res = requests.get("https://scoreboard.uscyberpatriot.com/")
+        res = requests.get("https://scoreboard.uscyberpatriot.org/")
         if res.status_code == 200:
             return "data: {\"isDone\": true, \"isAvailable\": true}\n\n"
         else:
@@ -88,7 +88,7 @@ def initial_runner():
 def run_server():
     initial_runner()
     port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port, threaded=True)
+    app.run(host='0.0.0.0', port=port, threaded=True, debug=True)
 
 if __name__ == "__main__":
     run_server()

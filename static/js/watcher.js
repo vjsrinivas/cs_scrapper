@@ -453,7 +453,7 @@ function merge(left, right){
       l = 0,
       r = 0;
   while(l < lLen && r < rLen){
-     if(right[r].gr < left[l].gr){
+     if(right[r].gr > left[l].gr){
        result.push(left[l++]);
      }
      else{

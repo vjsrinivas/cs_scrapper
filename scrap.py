@@ -59,19 +59,34 @@ class ScrapCS:
             for index in range(len(titer)):
                 text_sub = BeautifulSoup(str(titer[index]), "html.parser")
                 result = text_sub.findAll('td')
-                if len(str(result[7].text)) == 1:
-                    if str(result[7].text) == "M":
-                        _tempPen = [False, True]
+                if len(result) == 8:
+                    if len(str(result[7].text)) == 1:
+                        if str(result[7].text) == "M":
+                            _tempPen = [False, True]
+                        else:
+                            _tempPen = [True, False]
+                    elif len(str(result[7].text)) > 1:
+                        _tempPen = [True, True]
                     else:
-                        _tempPen = [True, False]
-                elif len(str(result[7].text)) > 1:
-                    _tempPen = [True, True]
-                else:
-                    _tempPen = [False, False]
+                        _tempPen = [False, False]
 
-                lister.append(TeamData(index+1, 0, str(result[0].text), str(result[2].text), str(result[1].text),
-                                       str(result[3].text), int(result[4].text), str(result[5].text), int(result[6].text),
-                                       _tempPen))
+                    lister.append(TeamData(index+1, 0, str(result[0].text), str(result[2].text), str(result[1].text),
+                                           str(result[3].text), int(result[4].text), str(result[5].text), int(result[6].text),
+                                           _tempPen))
+                else:
+                    if len(str(result[4].text)) == 1:
+                        if str(result[4].text) == "M":
+                            _tempPen = [False, True]
+                        else:
+                            _tempPen = [True, False]
+                    elif len(str(result[4].text)) > 1:
+                        _tempPen = [True, True]
+                    else:
+                        _tempPen = [False, False]
+
+                    lister.append(TeamData(index+1, 0, str(result[0].text), "", "",
+                                           "", "", str(result[2].text), str(result[3].text),
+                                           _tempPen))
             return lister
         else:
             return lister
@@ -109,10 +124,12 @@ class ScrapCS:
 
                 meandata = "\t\t{\n"
                 meandata += str("\t\t\t\"{0}\": {1},\n").format("gr", teamdata[index].gr)
-                meandata += str("\t\t\t\"{0}\": {1},\n").format("dr", teamdata[index].dr)
+                #meandata += str("\t\t\t\"{0}\": {1},\n").format("dr", teamdata[index].dr)
+                meandata += str("\t\t\t\"{0}\": {1},\n").format("dr", "-1")
                 meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("teamid", teamdata[index].teamid)
                 meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("loc", teamdata[index].loc)
-                meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("div", teamdata[index].div)
+                #meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("div", teamdata[index].div)
+                meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("div", "None")
                 meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("tier", teamdata[index].tier)
                 meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("sc_image", teamdata[index].sc_image)
                 meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("time", teamdata[index].time)
