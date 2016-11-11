@@ -68,8 +68,8 @@ def metadata():
 def event_stream():
     #time.sleep(2)
     try:
-        res = requests.get("https://ancient-anchorage-16212.herokuapp.com/")
-        #res = requests.get("https://scoreboard.uscyberpatriot.com/")
+        #res = requests.get("https://ancient-anchorage-16212.herokuapp.com/")
+        res = requests.get("https://scoreboard.uscyberpatriot.com/")
         if res.status_code == 200:
             return "data: {\"isDone\": true, \"isAvailable\": true}\n\n"
     except requests.exceptions.ConnectionError:
