@@ -74,18 +74,18 @@ class ScrapCS:
                                            str(result[3].text), int(result[4].text), str(result[5].text), int(result[6].text),
                                            _tempPen))
                 else:
-                    if len(str(result[4].text)) == 1:
-                        if str(result[4].text) == "M":
+                    if len(str(result[5].text)) == 1:
+                        if str(result[5].text) == "M":
                             _tempPen = [False, True]
                         else:
                             _tempPen = [True, False]
-                    elif len(str(result[4].text)) > 1:
+                    elif len(str(result[5].text)) > 1:
                         _tempPen = [True, True]
                     else:
                         _tempPen = [False, False]
 
-                    lister.append(TeamData(index+1, 0, str(result[0].text), "", "",
-                                           "", "", str(result[2].text), str(result[3].text),
+                    lister.append(TeamData(index+1, 0, str(result[0].text), "", str(result[1].text),
+                                           "", str(result[2].text), str(result[3].text), str(result[4].text),
                                            _tempPen))
             return lister
         else:
@@ -104,15 +104,15 @@ class ScrapCS:
                 #Determine Position in Division rank (Open including all)
                 #Division rank is not including tier in Open division
                 for pepper in range(len(division)):
-                    if teamdata[index].div == "All Service":
+                    if teamdata[index].div == "All Service Division":
                         dv_a += 1
                         teamdata[index].dr = dv_a
                         break
-                    elif teamdata[index].div == "Middle School":
+                    elif teamdata[index].div == "Middle School Division":
                         dv_m += 1
                         teamdata[index].dr = dv_m
                         break
-                    elif teamdata[index].div == "Open":
+                    elif teamdata[index].div == "Open Division":
                         dv_o += 1
                         teamdata[index].dr = dv_o
                         break
@@ -124,12 +124,12 @@ class ScrapCS:
 
                 meandata = "\t\t{\n"
                 meandata += str("\t\t\t\"{0}\": {1},\n").format("gr", teamdata[index].gr)
-                #meandata += str("\t\t\t\"{0}\": {1},\n").format("dr", teamdata[index].dr)
-                meandata += str("\t\t\t\"{0}\": {1},\n").format("dr", "-1")
+                meandata += str("\t\t\t\"{0}\": {1},\n").format("dr", teamdata[index].dr)
+                #meandata += str("\t\t\t\"{0}\": {1},\n").format("dr", "-1")
                 meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("teamid", teamdata[index].teamid)
                 meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("loc", teamdata[index].loc)
-                #meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("div", teamdata[index].div)
-                meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("div", "None")
+                meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("div", teamdata[index].div)
+                #meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("div", "None")
                 meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("tier", teamdata[index].tier)
                 meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("sc_image", teamdata[index].sc_image)
                 meandata += str("\t\t\t\"{0}\": \"{1}\",\n").format("time", teamdata[index].time)

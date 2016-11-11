@@ -38,8 +38,9 @@ def hello_world():
 
 @app.route('/stream')
 def stream():
-    res = Response(event_stream(), content_type="text/event-stream")
-    return res
+    #res = Response(event_stream(), content_type="text/event-stream")
+    #return res
+        return Response("data: {\"isDone\": true, \"isAvailable\": true}\n\n", content_type="text/event-stream")
 
 @app.route("/old")
 def old():
@@ -72,8 +73,6 @@ def event_stream():
         res = requests.get("https://scoreboard.uscyberpatriot.org/")
         if res.status_code == 200:
             return "data: {\"isDone\": true, \"isAvailable\": true}\n\n"
-        else:
-            return "data: {\"isDone\": false, \"isAvailable\": false}\n\n"
     except requests.exceptions.ConnectionError:
         return "data: {\"isDone\": false, \"isAvailable\": false}\n\n"
 
