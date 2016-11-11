@@ -72,6 +72,8 @@ def event_stream():
         res = requests.get("https://scoreboard.uscyberpatriot.com/")
         if res.status_code == 200:
             return "data: {\"isDone\": true, \"isAvailable\": true}\n\n"
+        else:
+            return "data: {\"isDone\": false, \"isAvailable\": false}\n\n"
     except requests.exceptions.ConnectionError:
         return "data: {\"isDone\": false, \"isAvailable\": false}\n\n"
 
