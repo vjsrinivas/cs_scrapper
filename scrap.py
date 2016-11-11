@@ -73,7 +73,7 @@ class ScrapCS:
                     lister.append(TeamData(index+1, 0, str(result[0].text), str(result[2].text), str(result[1].text),
                                            str(result[3].text), int(result[4].text), str(result[5].text), int(result[6].text),
                                            _tempPen))
-                else:
+                elif len(result) == 6:
                     if len(str(result[5].text)) == 1:
                         if str(result[5].text) == "M":
                             _tempPen = [False, True]
@@ -86,6 +86,20 @@ class ScrapCS:
 
                     lister.append(TeamData(index+1, 0, str(result[0].text), "", str(result[1].text),
                                            "", str(result[2].text), str(result[3].text), str(result[4].text),
+                                           _tempPen))
+                else:
+                    if len(str(result[4].text)) == 1:
+                        if str(result[4].text) == "M":
+                            _tempPen = [False, True]
+                        else:
+                            _tempPen = [True, False]
+                    elif len(str(result[4].text)) > 1:
+                        _tempPen = [True, True]
+                    else:
+                        _tempPen = [False, False]
+
+                    lister.append(TeamData(index+1, 0, str(result[0].text), "", "",
+                                           "", str(result[1].text), str(result[2].text), str(result[3].text),
                                            _tempPen))
             return lister
         else:
