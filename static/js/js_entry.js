@@ -10,7 +10,7 @@ $(document).ready(function() {
     var templateState = String.raw`<div class="label-sort sort-state"><p class="para-sort">State Filter <input type="text" value="(Tennessee)" id="state-sort" class="change-value"/></p><i class="material-icons md-24">remove_circle</i></div>`;
     var templateDivision = String.raw`<div class="label-sort sort-div"><p class="para-sort">Division <input type="text" value="(Open)" id="division-sort" class="change-value"/></p><i class="material-icons md-24">remove_circle</i></div>`;
     var templateTier = String.raw`<div class="label-sort sort-tier"><p class="para-sort">Tier <input type="text" value="(Platinum)" style="width: 65px;" id="tier-sort" class="change-value"/></p><i class="material-icons md-24">remove_circle</i></div>`;
-    var templateClear = String.raw`<i class="material-icons" id="clearer" title="Clear All">clear_all</i>`;
+    //var templateClear = String.raw`<i class="material-icons" id="clearer" title="Clear All">clear_all</i>`;
 
     $('a#sort').click(function() {
 
@@ -53,7 +53,7 @@ $(document).ready(function() {
             console.log("asfsaf");
             if(!$(this).hasClass("disabled") && !clearMe)
             {
-                $("#label-clear").append(templateClear)
+                //$("#label-clear").append(templateClear)
                 clearMe = true;
             }
         });

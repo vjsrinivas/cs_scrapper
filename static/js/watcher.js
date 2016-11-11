@@ -69,6 +69,7 @@ function generateWatch(id)
                     globalWatch[0].gr = maintab.row(k).data().gr;
                     globalWatch[0].dr = maintab.row(k).data().dr;
                     globalWatch[0].time = maintab.row(k).data().time
+                    globalWatch[0].state = maintab.row(k).data().loc;
                 }
             }
     }
@@ -138,10 +139,20 @@ function fillBlankTabs()
         //
         if($("#watcher_"+i).length != 0)
         {
-            $("#watcher_"+i).append(taker + '<a class="rank_g"><b>(GR)</b> ' + globalWatch[i].gr  + ' </a><a class="rank_d"><b>(DR)</b> ' + globalWatch[i].dr + ' </a><a class="rank_d"><b>(PR)</b> ' + globalWatch[i].internalPos + ' </a><a class="ID">' + globalWatch[i].id + '</a><a class="state">' + globalWatch[i].state + '</a> <a class="state-ico">' + getStateLetter(globalWatch[i].state) + '</a><a class="score">' + globalWatch[i].score + '</a>')
+            $("#watcher_"+i).append(taker + '<a class="rank_g"><b>(GR)</b> ' + globalWatch[i].gr  + ' </a><a class="rank_d"><b>(DR)</b> ' + globalWatch[i].dr + ' </a><a class="rank_d"><b>(PR)</b> ' + globalWatch[i].internalPos + ' </a><a class="ID">' + globalWatch[i].id + '</a><a class="state">' + fixateState(globalWatch[i].state) + '</a> <a class="state-ico">' + getStateLetter(globalWatch[i].state) + '</a><a class="score">' + globalWatch[i].score + '</a>')
         }
         else { console.log("threw error: Empty draw not found! <" + i + ">"); }
     }
+}
+
+function fixateState(input)
+{
+    var output = "";
+    if(input == "")
+        output = "unknown";
+    else
+        output = input
+    return output;
 }
 
 function getStateLetter(input)
@@ -300,7 +311,7 @@ function getStateLetter(input)
             output = "x";
             break;
         default:
-            output = "unknown";
+            output = "";
     }
     return output;
 }
@@ -442,7 +453,7 @@ function merge(left, right){
       l = 0,
       r = 0;
   while(l < lLen && r < rLen){
-     if(right[r].score < left[l].score){
+     if(right[r].gr < left[l].gr){
        result.push(left[l++]);
      }
      else{

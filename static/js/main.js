@@ -176,13 +176,13 @@ $(document).ready(function() {
         maintab.draw();
         if ($("#foo > div").length == 0)
         {
-            $("#clearer").remove();
+            //$("#clearer").remove();
             window.clearMe = false;
         }
         $(this).parent().remove();
     });
 
-    $(document).on('click', '#clearer', function()
+    /*$(document).on('click', '#clearer', function()
     {
         $("#label-holder").empty();
         $(this).remove();
@@ -196,7 +196,7 @@ $(document).ready(function() {
             sortTier = false;
         maintab.draw();
         window.clearMe = false;
-    });
+    });*/
 
 	$('.setting').click(function() {
 		$('.main').css("opacity", "0").css("display","none");

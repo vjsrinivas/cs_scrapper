@@ -3,10 +3,10 @@ from bs4 import BeautifulSoup
 import time
 import random
 import httplib2
-from apiclient.discovery import build
 from oauth2client.client import GoogleCredentials
-from googleapiclient.http import MediaIoBaseUpload
+import googleapiclient.http
 import io
+import apiclient
 
 
 class TeamData():
@@ -141,7 +141,7 @@ def insert_file(service, title, description, parent_id, mime_type, filename):
     Returns:
     Inserted file metadata if successful, None otherwise.
     """
-    media_body = MediaIoBaseUpload(filename, mimetype = mime_type, resumable=True)
+    media_body = googleapiclient.http.MediaIoBaseUpload(filename, mimetype = mime_type, resumable=True)
     body = {
         'title': title,
         'description': description,
@@ -169,7 +169,7 @@ def log_data(source_input):
     credentials = GoogleCredentials("ya29.Ci9AAwUmt7mV1swYEcywv3Pp0PLztLF52QknRjjAdZXVs4T-qz9LsRvy4S4XmB4o4Q", "766879087037-6q4sijcnuuc0tovtocb9l15et5c1fguv.apps.googleusercontent.com", "OfcMYdayeLeqY_HSbzVgapwX", "1/zAWOGo306IarCj_N0ccqMvWDtT6kwSnKhfxVGcRA2OU","","https://accounts.google.com/o/oauth2/token","my-user-agent/1.0")
     http = httplib2.Http()
     http = credentials.authorize(http)
-    service = build('drive', 'v2', http=http)
+    service = apiclient.discovery.build('drive', 'v2', http=http)
 
     fh = io.BytesIO(bytes(source_input, "utf-8"))
     rerun = insert_file(service, "{0}.json".format(int(time.time())), "[{0}] - CyberPatriot Unofficial Scoreboard Logs".format(int(time.time())), "", "application/json", fh)
