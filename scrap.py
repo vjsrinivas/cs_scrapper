@@ -59,19 +59,20 @@ class ScrapCS:
             for index in range(len(titer)):
                 text_sub = BeautifulSoup(str(titer[index]), "html.parser")
                 result = text_sub.findAll('td')
-                if len(result) == 8:
-                    if len(str(result[7].text)) == 1:
-                        if str(result[7].text) == "M":
+                #print(len(result))
+                if len(result) == 7:
+                    if len(str(result[6].text)) == 1:
+                        if str(result[6].text) == "M":
                             _tempPen = [False, True]
                         else:
                             _tempPen = [True, False]
-                    elif len(str(result[7].text)) > 1:
+                    elif len(str(result[6].text)) > 1:
                         _tempPen = [True, True]
                     else:
                         _tempPen = [False, False]
-
-                    lister.append(TeamData(index+1, 0, str(result[0].text), str(result[2].text), str(result[1].text),
-                                           str(result[3].text), int(result[4].text), str(result[5].text), int(result[6].text),
+                    print(result)
+                    lister.append(TeamData(index+1, 0, str(result[0].text), str(result[1].text), str(result[2].text),
+                                           "", int(result[3].text), str(result[4].text), int(result[5].text),
                                            _tempPen))
                 elif len(result) == 6:
                     if len(str(result[5].text)) == 1:
@@ -118,15 +119,15 @@ class ScrapCS:
                 #Determine Position in Division rank (Open including all)
                 #Division rank is not including tier in Open division
                 for pepper in range(len(division)):
-                    if teamdata[index].div == "All Service Division":
+                    if teamdata[index].div == "All Service":
                         dv_a += 1
                         teamdata[index].dr = dv_a
                         break
-                    elif teamdata[index].div == "Middle School Division":
+                    elif teamdata[index].div == "Middle School":
                         dv_m += 1
                         teamdata[index].dr = dv_m
                         break
-                    elif teamdata[index].div == "Open Division":
+                    elif teamdata[index].div == "Open":
                         dv_o += 1
                         teamdata[index].dr = dv_o
                         break
