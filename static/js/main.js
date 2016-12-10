@@ -66,6 +66,7 @@ $(document).ready(function() {
 
     function init()
     {
+        determine_ad();
         if(store.enabled && typeof(EventSource) !== "undefined" && store.get("watching") != undefined)
         {
             _watcher = store.get("watching").split("\n");
@@ -532,3 +533,8 @@ $(document).ready(function() {
             download("log_" + Date.now() + ".txt", window.logger);
     })
 });
+
+function determine_ad(){
+    if(!(Math.random() >= 0.5))
+        $("#native_ad_container").hide();
+}

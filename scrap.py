@@ -70,7 +70,7 @@ class ScrapCS:
                         _tempPen = [True, True]
                     else:
                         _tempPen = [False, False]
-                    print(result)
+                    #print(result)
                     lister.append(TeamData(index+1, 0, str(result[0].text), str(result[1].text), str(result[2].text),
                                            "", int(result[3].text), str(result[4].text), int(result[5].text),
                                            _tempPen))
