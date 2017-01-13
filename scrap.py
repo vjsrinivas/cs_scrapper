@@ -60,19 +60,22 @@ class ScrapCS:
                 text_sub = BeautifulSoup(str(titer[index]), "html.parser")
                 result = text_sub.findAll('td')
                 #print(len(result))
-                if len(result) == 7:
-                    if len(str(result[6].text)) == 1:
-                        if str(result[6].text) == "M":
+                if len(result) == 8:
+                    if len(str(result[7].text)) == 1:
+                        if str(result[7].text) == "M":
                             _tempPen = [False, True]
                         else:
                             _tempPen = [True, False]
-                    elif len(str(result[6].text)) > 1:
+                    elif len(str(result[7].text)) > 1:
                         _tempPen = [True, True]
                     else:
                         _tempPen = [False, False]
                     #print(result)
-                    lister.append(TeamData(index+1, 0, str(result[0].text), str(result[1].text), str(result[2].text),
-                                           "", int(result[3].text), str(result[4].text), int(result[5].text),
+                    #lister.append(TeamData(index+1, 0, str(result[0].text), str(result[1].text), str(result[2].text),
+                                           #"", int(result[3].text), str(result[4].text), int(result[5].text),
+                                           #_tempPen))
+                    lister.append(TeamData(index+1, 0, str(result[0].text), str(result[1].text),  str(result[2].text),
+                                            str(result[3].text), str(result[4].text), str(result[5].text), str(result[6].text),
                                            _tempPen))
                 elif len(result) == 6:
                     if len(str(result[5].text)) == 1:
@@ -98,7 +101,6 @@ class ScrapCS:
                         _tempPen = [True, True]
                     else:
                         _tempPen = [False, False]
-
                     lister.append(TeamData(index+1, 0, str(result[0].text), "", "",
                                            "", str(result[1].text), str(result[2].text), str(result[3].text),
                                            _tempPen))
